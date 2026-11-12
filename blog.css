@@ -1,0 +1,216 @@
+/* =============================================
+   blog.css — blog.html 専用スタイル
+   ============================================= */
+
+/* ── Blog Hero ── */
+.blog-hero {
+  padding: 140px 5% 60px;
+  background: var(--bg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.blog-hero::before {
+  content: '📝';
+  position: absolute;
+  font-size: 300px;
+  opacity: 0.04;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.blog-hero-badge {
+  display: inline-block;
+  background: var(--teal-light);
+  color: var(--brown-dark);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  padding: 6px 20px;
+  border-radius: 100px;
+  border: 2px solid var(--brown);
+  margin-bottom: 24px;
+  box-shadow: 2px 2px 0 var(--brown);
+  animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.blog-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--brown);
+  line-height: 1.1;
+  margin-bottom: 16px;
+  animation: slideUp 0.6s 0.1s both;
+}
+.blog-hero h1 span { color: var(--orange-deep); }
+.blog-hero p {
+  font-family: var(--font-mincho);
+  color: var(--brown-mid);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto;
+  animation: slideUp 0.6s 0.2s both;
+}
+
+/* ── Main Layout ── */
+.blog-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 5% 100px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── Post list ── */
+.posts-list { display: flex; flex-direction: column; gap: 32px; }
+
+/* ── Post card (list) ── */
+.post-card {
+  background: var(--cream);
+  border: 2px solid rgba(0,0,0,0.12);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideUp 0.5s forwards;
+}
+.post-card:nth-child(1) { animation-delay: 0.1s; }
+.post-card:nth-child(2) { animation-delay: 0.2s; }
+.post-card:nth-child(3) { animation-delay: 0.3s; }
+.post-card:nth-child(4) { animation-delay: 0.4s; }
+.post-card:hover { transform: translateY(-6px); border-color: var(--teal); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+.featured-post { background: linear-gradient(135deg, rgba(255,157,46,0.08), var(--cream)); border-color: var(--orange); border-width: 2.5px; }
+.featured-post h2 { font-size: 2rem; }
+.post-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.post-date { font-size: 0.8rem; font-weight: 700; color: var(--brown-mid); letter-spacing: 0.1em; }
+.featured-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; padding: 3px 12px; border-radius: 100px; background: var(--orange); color: var(--white); border: 1.5px solid var(--brown); }
+.post-tag { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; padding: 3px 12px; border-radius: 100px; background: var(--teal-light); color: var(--brown-dark); border: 1.5px solid var(--teal); }
+.post-tag.tag-game  { background: rgba(255,157,46,0.18); border-color: var(--orange); color: var(--orange-deep); }
+.post-tag.tag-anime { background: rgba(0,255,178,0.16); border-color: var(--teal); color: var(--teal-deep); }
+.post-tag.tag-life  { background: rgba(224,48,255,0.14); border-color: var(--vsc-purple); color: var(--vsc-purple); }
+.post-tag.tag-make  { background: rgba(244,255,61,0.22); border-color: var(--accent); color: #8a8a12; }
+.post-card h2 { font-family: var(--font-display); font-size: 1.7rem; color: var(--brown); line-height: 1.2; margin-bottom: 12px; }
+.post-card p.post-summary { font-family: var(--font-mincho); color: var(--brown-mid); line-height: 1.9; font-size: 0.97rem; margin-bottom: 20px; }
+.post-read-more { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-body); font-weight: 700; font-size: 0.9rem; letter-spacing: 0.08em; color: var(--teal-deep); padding: 8px 20px; border-radius: 100px; border: 2px solid var(--teal); transition: all 0.2s; }
+.post-read-more:hover { background: var(--teal); color: var(--brown-dark); transform: translateY(-2px); }
+
+/* ── No results ── */
+.no-results { text-align: center; padding: 60px 20px; color: var(--brown-mid); font-family: var(--font-mincho); font-size: 1.1rem; }
+.no-results .no-results-emoji { font-size: 4rem; margin-bottom: 16px; }
+
+/* ── Pagination ── */
+.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+.pagination button {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.2);
+  background: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--brown-mid);
+  transition: all 0.2s;
+}
+.pagination button:hover, .pagination button.active { background: var(--orange); border-color: var(--brown); color: var(--white); }
+.pagination button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ── Article view (記事詳細) ── */
+.article-view { display: none; }
+.article-view.visible { display: block; }
+.posts-list.hidden { display: none; }
+.article-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-weight: 700; font-size: 0.9rem;
+  color: var(--teal-deep);
+  padding: 8px 20px; border-radius: 100px; border: 2px solid var(--teal);
+  margin-bottom: 32px; transition: all 0.2s; 
+  background: none;
+}
+.article-back:hover { background: var(--teal); color: var(--brown-dark); }
+.article-header { margin-bottom: 36px; }
+.article-header .post-meta { margin-bottom: 16px; }
+.article-header h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); color: var(--brown); line-height: 1.2; }
+.article-body {
+  font-family: var(--font-mincho);
+  color: var(--brown-mid);
+  line-height: 2;
+  font-size: 1.05rem;
+}
+.article-body p { margin-bottom: 20px; }
+.article-body h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--brown); margin: 32px 0 12px; padding-left: 12px; border-left: 4px solid var(--orange); }
+.article-body strong { color: var(--brown); font-weight: 700; }
+.article-body ol, .article-body ul { padding-left: 24px; margin-bottom: 20px; }
+.article-body li { margin-bottom: 8px; }
+
+/* ── Sidebar ── */
+.sidebar { display: flex; flex-direction: column; gap: 28px; position: sticky; top: 100px; }
+.sidebar-block { background: var(--cream); border: 2px solid rgba(0,0,0,0.12); border-radius: var(--radius-lg); padding: 28px; animation: slideUp 0.5s 0.3s both; }
+.sidebar-block h3 { font-family: var(--font-display); font-size: 1.2rem; color: var(--brown); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px dashed rgba(0,0,0,0.15); }
+
+/* Profile */
+.profile-pic { width: 80px; height: 80px; background: linear-gradient(135deg, var(--teal), var(--teal-deep)); border-radius: 50%; border: 3px solid var(--brown); display: flex; align-items: center; justify-content: center; font-size: 2.4rem; margin: 0 auto 16px; box-shadow: 4px 4px 0 var(--brown); }
+.profile-name { font-family: var(--font-display); font-size: 1.1rem; color: var(--brown); text-align: center; margin-bottom: 8px; }
+.profile-bio { font-family: var(--font-mincho); font-size: 0.88rem; color: var(--brown-mid); line-height: 1.8; text-align: center; }
+
+/* Tag cloud */
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-cloud button {
+  font-family: var(--font-body); font-weight: 700; font-size: 0.78rem;
+  padding: 5px 14px; border-radius: 100px;
+  background: var(--bg-dark); border: 1.5px solid rgba(0,0,0,0.2);
+  color: var(--brown-mid); transition: all 0.2s;
+}
+.tag-cloud button:hover, .tag-cloud button.active { background: var(--orange); color: var(--white); border-color: var(--brown); }
+
+/* Archive */
+.archive-list { display: flex; flex-direction: column; gap: 10px; }
+.archive-list button {
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--font-body); font-weight: 500; font-size: 0.9rem;
+  color: var(--brown-mid); padding: 6px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  background: none; border-top: none; border-left: none; border-right: none;
+  transition: color 0.2s; width: 100%; text-align: left;
+}
+.archive-list button:hover, .archive-list button.active { color: var(--orange-deep); }
+.archive-count { font-size: 0.75rem; font-weight: 700; background: var(--teal-light); color: var(--teal-deep); padding: 2px 8px; border-radius: 100px; }
+
+/* ── Animations (blog) ── */
+@keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* ── Responsive (blog) ── */
+@media (max-width: 900px) {
+  .blog-main { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+}
+
+/* ── 虹色にするやつ　── */
+.rainbow {
+  font-weight: bold;
+  background: linear-gradient(
+    90deg,
+    red,
+    orange,
+    green,
+    cyan,
+    blue,
+    purple,
+    red
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow 3s linear infinite;
+}
+
+@keyframes rainbow {
+  to {
+    background-position: 200% center;
+  }
+}

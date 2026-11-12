@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>お絵かき掲示板 — 梶原のウェブサイト</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700;800&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="cursor.css" />
+  <link rel="stylesheet" href="oekaki.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">🦆</span>
+      <span>梶原のウェブサイト</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#games">GAMES</a></li>
+      <li><a href="index.html#about">ABOUT</a></li>
+      <li><a href="index.html#news">NEWS</a></li>
+      <li><a href="blog.html">blog</a></li>
+      <li><a href="oekaki.html" class="nav-cta">お絵かき</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="menu">☰</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="oekaki-hero">
+    <div class="oekaki-hero-badge">🎨 みんなのお絵かき</div>
+    <h1>お絵描き <span>掲示板</span></h1>
+    <p>自由に描いて投稿しよう。<br/>どんな絵でもウェルカムです🦜
+    <br/>投稿の仕様がちょっと原始的で使いにくいかも</p>
+  </section>
+
+  <!-- DRAW SECTION -->
+  <main class="oekaki-main">
+
+    <!-- キャンバスエリア -->
+    <section class="canvas-section">
+      <div class="canvas-wrapper">
+
+        <!-- ツールバー上 -->
+        <div class="toolbar top-toolbar">
+          <div class="tool-group color-group">
+            <span class="tool-label">🎨 色</span>
+            <div class="color-swatches" id="colorSwatches"></div>
+          </div>
+          <div class="tool-group size-group">
+            <span class="tool-label">✏️ 太さ</span>
+            <div class="size-btns">
+              <button class="size-btn active" data-size="4" title="細">●</button>
+              <button class="size-btn" data-size="10" title="中">●</button>
+              <button class="size-btn" data-size="22" title="太">●</button>
+            </div>
+          </div>
+          <div class="tool-group">
+            <span class="tool-label">🛠️ ツール</span>
+            <div class="tool-btns">
+              <button class="tool-btn active" id="penBtn" title="ペン">✏️ ペン</button>
+              <button class="tool-btn" id="eraserBtn" title="消しゴム">🧹 消しゴム</button>
+            </div>
+          </div>
+          <div class="tool-group">
+            <button class="clear-btn" id="clearBtn">🗑️ 全消し</button>
+          </div>
+        </div>
+
+        <!-- キャンバス -->
+        <canvas id="drawCanvas" width="720" height="480"></canvas>
+
+        <!-- 投稿フォーム -->
+        <div class="post-bar">
+          <button class="done-btn" id="doneBtn">🖼️ 完成！</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 投稿モーダル -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <button class="modal-close" id="modalClose">✕</button>
+        <h2>投稿する</h2>
+        <div class="modal-preview">
+          <img id="previewImg" alt="プレビュー" />
+        </div>
+        <div class="modal-form">
+          <label>ニックネーム</label>
+          <input type="text" id="nicknameInput" placeholder="匿名A" maxlength="20" />
+          <button class="submit-btn" id="submitBtn">💾 画像を保存する</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ダウンロード完了案内モーダル -->
+    <div class="modal-overlay" id="downloadNoticeOverlay">
+      <div class="modal">
+        <button class="modal-close" id="downloadNoticeClose">✕</button>
+        <h2>💌 保存できました！</h2>
+        <div class="modal-form">
+          <p style="font-family: var(--font-mincho); color: var(--brown-mid); line-height:1.8; font-size:0.95rem;">
+            <strong id="downloadedFilename" style="color:var(--brown); word-break: break-all;"></strong>
+            という名前で画像が保存されました。<br/><br/>
+            続けて<strong>投稿フォーム</strong>が別タブで開きます。<br/>
+            フォームの添付欄で、今保存したばかりの画像ファイルを選んで送信してください 🎨
+          </p>
+          <button class="submit-btn" id="downloadNoticeOk">フォームを開く</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 拡大モーダル -->
+    <div class="modal-overlay" id="lightboxOverlay">
+      <div class="lightbox">
+        <button class="modal-close" id="lightboxClose">✕</button>
+        <img id="lightboxImg" alt="" />
+        <div class="lightbox-footer">
+          <div class="lightbox-info">
+            <span class="lightbox-name" id="lightboxName"></span>
+            <span class="lightbox-date" id="lightboxDate"></span>
+          </div>
+          <div class="lightbox-like">
+            <button class="like-btn" id="lightboxLikeBtn">
+              <span class="like-heart">❤️</span>
+              <span class="like-label">いいね！</span>
+            </button>
+            <span class="like-count" id="lightboxLikeCount">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 掲示板 -->
+    <section class="board-section">
+      <div class="board-header">
+        <h2>📋 お絵描き記録</h2>
+        <div class="archive-filter" id="archiveFilter"></div>
+      </div>
+      <div class="board-grid" id="boardGrid"></div>
+      <div class="no-posts hidden" id="noPosts">
+        <div class="no-posts-emoji">🦖</div>
+        <p>まだ投稿がないよ。最初の一枚を描いてみて！</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo"><span>👾</span> 梶原のウェブサイト</div>
+      <p class="footer-text">© 2026 kajihara website nanisiyoukana.</p>
+      <div class="footer-links">
+        <a href="index.html">ホーム</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  // =============================================
+  //  お絵かき掲示板 — メインスクリプト
+  // =============================================
+
+  // ── 色パレット ──
+  const COLORS = [
+    { hex: '#2d2d2d', label: 'くろ' },
+    { hex: '#ffffff', label: 'しろ' },
+    { hex: '#e63946', label: 'あか' },
+    { hex: '#f4a261', label: 'オレンジ' },
+    { hex: '#f9c74f', label: 'きいろ' },
+    { hex: '#90be6d', label: 'みどり' },
+    { hex: '#43aa8b', label: 'エメラルド' },
+    { hex: '#4cc9f0', label: 'みずいろ' },
+    { hex: '#4361ee', label: 'あお' },
+    { hex: '#9b5de5', label: 'むらさき' },
+    { hex: '#f72585', label: 'ピンク' },
+    { hex: '#8d6748', label: 'ちゃいろ' },
+  ];
+
+  // ── state ──
+  let currentColor = COLORS[0].hex;
+  let currentSize  = 4;
+  let isEraser     = false;
+  let drawing      = false;
+  let lastX = 0, lastY = 0;
+  let activeMonth  = null; // アーカイブフィルタ
+
+  const canvas  = document.getElementById('drawCanvas');
+  const ctx     = canvas.getContext('2d');
+
+  // キャンバス初期化（白背景）
+  function initCanvas() {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  initCanvas();
+
+  // ── 色スウォッチ描画 ──
+  const swatchContainer = document.getElementById('colorSwatches');
+  COLORS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'swatch' + (c.hex === currentColor ? ' active' : '');
+    btn.style.setProperty('--swatch-color', c.hex);
+    btn.title = c.label;
+    btn.dataset.color = c.hex;
+    if (c.hex === '#ffffff') btn.classList.add('white-swatch');
+    btn.addEventListener('click', () => {
+      currentColor = c.hex;
+      isEraser = false;
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('penBtn').classList.add('active');
+      document.getElementById('eraserBtn').classList.remove('active');
+    });
+    swatchContainer.appendChild(btn);
+  });
+
+  // ── 太さ ──
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSize = parseInt(btn.dataset.size);
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // ── ペン / 消しゴム ──
+  document.getElementById('penBtn').addEventListener('click', () => {
+    isEraser = false;
+    document.getElementById('penBtn').classList.add('active');
+    document.getElementById('eraserBtn').classList.remove('active');
+  });
+  document.getElementById('eraserBtn').addEventListener('click', () => {
+    isEraser = true;
+    document.getElementById('eraserBtn').classList.add('active');
+    document.getElementById('penBtn').classList.remove('active');
+  });
+
+  // ── 全消し ──
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    if (confirm('全部消してもいい？')) initCanvas();
+  });
+
+  // ── 描画 ──
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top)  * scaleY,
+    };
+  }
+
+  function startDraw(e) {
+    e.preventDefault();
+    drawing = true;
+    const { x, y } = getPos(e);
+    lastX = x; lastY = y;
+    ctx.beginPath();
+    ctx.arc(x, y, (isEraser ? currentSize * 2 : currentSize) / 2, 0, Math.PI * 2);
+    ctx.fillStyle = isEraser ? '#ffffff' : currentColor;
+    ctx.fill();
+  }
+
+  function draw(e) {
+    e.preventDefault();
+    if (!drawing) return;
+    const { x, y } = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = isEraser ? '#ffffff' : currentColor;
+    ctx.lineWidth   = isEraser ? currentSize * 2 : currentSize;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+    ctx.stroke();
+    lastX = x; lastY = y;
+  }
+
+  function endDraw(e) { drawing = false; }
+
+  canvas.addEventListener('mousedown',  startDraw);
+  canvas.addEventListener('mousemove',  draw);
+  canvas.addEventListener('mouseup',    endDraw);
+  canvas.addEventListener('mouseleave', endDraw);
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchmove',  draw,      { passive: false });
+  canvas.addEventListener('touchend',   endDraw);
+
+  // ── 完成モーダル ──
+  const overlay      = document.getElementById('modalOverlay');
+  const previewImg   = document.getElementById('previewImg');
+  const nicknameInput = document.getElementById('nicknameInput');
+
+  document.getElementById('doneBtn').addEventListener('click', () => {
+    previewImg.src = canvas.toDataURL('image/png');
+    nicknameInput.value = '';
+    overlay.classList.add('visible');
+  });
+  document.getElementById('modalClose').addEventListener('click', () => {
+    overlay.classList.remove('visible');
+  });
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('visible');
+  });
+
+  // ── 投稿一覧──
+  // ============================================================
+  // ここに投稿を追加
+  //
+  // 新しい絵が届いたら：
+  //  1. 届いた画像ファイルを oekaki.html と同じ階層の "posts" フォルダに入れる
+  //     （例: posts/20260714_1030_たろう.png）
+  //  2. 下の POSTS_RAW 配列に1行追加する：
+  //       { id: '一意な文字列', nickname: 'ニックネーム',
+  //         file: 'posts/ファイル名.png', date: 'YYYY-MM-DDTHH:mm:ss' }
+  //  3. ファイルを保存して、サーバーに再アップロードする
+  //
+  // id は他と被らなければ何でも
+  // date は ISO形式（YYYY-MM-DDTHH:mm:ss）。日付・月別フィルタの表示
+  // ============================================================
+  const POSTS_RAW = [
+    { id: '1', nickname: 'テスト', file: 'posts/20260714_1428_テスト.png', date: '2026-07-14T14:28:00' },
+    { id: '2', nickname: '匿名A', file: 'posts/20260716_1412_匿名A - 久保淵 大Kubobuchi Hiroto.png', date: '2026-07-16T14:12:00' },
+    { id: '3', nickname: 'けいぴーの', file: 'posts/20260717_1709_未完成 - 平井 渓太Hirai Keita.png', date: '2026-07-16T14:12:00' },
+    { id: '4', nickname: '炭酸', file: 'posts/20260731_1419_炭酸 - 角 美妃Kaku Misaki.png', date: '2026-07-31T14:12:00' },
+    { id: '5', nickname: 'しゅわにゃんこ', file: 'posts/20260731_1443_しゅわにゃんこ - 角 美妃Kaku Misaki.png', date: '2026-07-31T14:12:00' },
+     { id: '6', nickname: '碇シンジ', file: 'posts/20260807_0925_碇シンジ.png', date: '2026-08-07T14:12:00' },
+  ];
+    
+
+
+  function loadPosts() {
+    return POSTS_RAW
+      .map(p => {
+        const d = new Date(p.date);
+        return {
+          id: p.id,
+          nickname: p.nickname,
+          dataURL: p.file, // ファイルパスをそのまま画像srcとして使う
+          date: p.date,
+          dateLabel: `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`,
+          ym: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,
+          ymLabel: `${d.getFullYear()}年${d.getMonth()+1}月`,
+        };
+      })
+      .sort((a, b) => new Date(b.date) - new Date(a.date)); // 新しい順
+  }
+
+  // ── 完成した絵をファイルとして保存（ダウンロード）＋ 投稿フォームを開く ──
+  const FORM_URL = 'https://forms.gle/iza3Kx6uZYYj9AgAA'; // 投稿用Googleフォーム
+
+  const downloadNoticeOverlay = document.getElementById('downloadNoticeOverlay');
+  const downloadedFilenameEl  = document.getElementById('downloadedFilename');
+
+  document.getElementById('submitBtn').addEventListener('click', () => {
+    const nickname = nicknameInput.value.trim() || '匿名A';
+    const now      = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const safeName = nickname.replace(/[^\w\u3040-\u30FF\u4E00-\u9FFF\u30FC]/g, '') || 'anon';
+    const filename = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}_${safeName}.png`;
+
+    // 画像をダウンロード
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // 投稿フォームを新規タブで開く（クリック直後の同期処理内なのでポップアップブロックされにくい）
+    window.open(FORM_URL, '_blank');
+
+    overlay.classList.remove('visible');
+    initCanvas();
+
+    downloadedFilenameEl.textContent = filename;
+    downloadNoticeOverlay.classList.add('visible');
+  });
+
+  document.getElementById('downloadNoticeClose').addEventListener('click', () => {
+    downloadNoticeOverlay.classList.remove('visible');
+  });
+  document.getElementById('downloadNoticeOk').addEventListener('click', () => {
+    // ブロックされていた場合の保険として、ここでも開く
+    window.open(FORM_URL, '_blank');
+    downloadNoticeOverlay.classList.remove('visible');
+  });
+  downloadNoticeOverlay.addEventListener('click', e => {
+    if (e.target === downloadNoticeOverlay) downloadNoticeOverlay.classList.remove('visible');
+  });
+
+  // ── ライトボックス ──
+  const lightboxOverlay  = document.getElementById('lightboxOverlay');
+  const lightboxImg      = document.getElementById('lightboxImg');
+  const lightboxName     = document.getElementById('lightboxName');
+  const lightboxDate     = document.getElementById('lightboxDate');
+  const lightboxLikeBtn  = document.getElementById('lightboxLikeBtn');
+  const lightboxLikeCount = document.getElementById('lightboxLikeCount');
+  let lightboxPostId = null;
+
+  function openLightbox(post) {
+    lightboxPostId = post.id;
+    lightboxImg.src = post.dataURL;
+    lightboxImg.alt = post.nickname + 'の絵';
+    lightboxName.textContent = '🎨 ' + post.nickname;
+    lightboxDate.textContent = post.dateLabel;
+    const count = parseInt(localStorage.getItem('oekaki_like_' + post.id)) || 0;
+    lightboxLikeCount.textContent = count;
+    lightboxLikeBtn.classList.remove('liked');
+    lightboxOverlay.classList.add('visible');
+  }
+
+  lightboxLikeBtn.addEventListener('click', () => {
+    if (!lightboxPostId) return;
+    const key = 'oekaki_like_' + lightboxPostId;
+    const count = (parseInt(localStorage.getItem(key)) || 0) + 1;
+    localStorage.setItem(key, count);
+    lightboxLikeCount.textContent = count;
+    lightboxLikeBtn.classList.add('liked');
+    setTimeout(() => lightboxLikeBtn.classList.remove('liked'), 400);
+    // タイル側のカウントも更新
+    const tileCount = document.querySelector(`.post-tile[data-id="${lightboxPostId}"] .tile-like-count`);
+    if (tileCount) tileCount.textContent = count;
+  });
+
+  document.getElementById('lightboxClose').addEventListener('click', () => {
+    lightboxOverlay.classList.remove('visible');
+  });
+  lightboxOverlay.addEventListener('click', e => {
+    if (e.target === lightboxOverlay) lightboxOverlay.classList.remove('visible');
+  });
+
+  // ── 掲示板レンダリング ──
+  function renderBoard() {
+    const posts = loadPosts();
+    const grid  = document.getElementById('boardGrid');
+    const noPosts = document.getElementById('noPosts');
+    const filterEl = document.getElementById('archiveFilter');
+
+    // アーカイブ月リスト生成
+    const months = [...new Set(posts.map(p => p.ym))].sort((a,b) => b.localeCompare(a));
+    filterEl.innerHTML = [
+      `<button class="month-btn ${!activeMonth ? 'active' : ''}" data-ym="">🗂️ すべて</button>`,
+      ...months.map(ym => {
+        const p = posts.find(p => p.ym === ym);
+        const count = posts.filter(p2 => p2.ym === ym).length;
+        return `<button class="month-btn ${activeMonth === ym ? 'active' : ''}" data-ym="${ym}">${p.ymLabel} <span class="month-count">${count}</span></button>`;
+      })
+    ].join('');
+    filterEl.querySelectorAll('.month-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeMonth = btn.dataset.ym || null;
+        renderBoard();
+      });
+    });
+
+    // フィルタ
+    const filtered = activeMonth ? posts.filter(p => p.ym === activeMonth) : posts;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      noPosts.classList.remove('hidden');
+    } else {
+      noPosts.classList.add('hidden');
+      grid.innerHTML = filtered.map((p, i) => {
+        const likeCount = parseInt(localStorage.getItem('oekaki_like_' + p.id)) || 0;
+        return `
+        <div class="post-tile" data-id="${p.id}" style="animation-delay:${i * 0.06}s">
+          <div class="tile-img-wrap">
+            <img src="${p.dataURL}" alt="${p.nickname}の絵" loading="lazy" />
+            <div class="tile-zoom-hint">🔍 クリックで拡大</div>
+          </div>
+          <div class="tile-meta">
+            <span class="tile-name">🎨 ${escHtml(p.nickname)}</span>
+            <span class="tile-date">${p.dateLabel}</span>
+          </div>
+          ${likeCount > 0 ? `<div class="tile-like-badge">❤️ <span class="tile-like-count">${likeCount}</span></div>` : `<div class="tile-like-badge hidden">❤️ <span class="tile-like-count">0</span></div>`}
+        </div>`;
+      }).join('');
+
+      // タイルクリック → ライトボックス
+      const allPosts = loadPosts();
+      grid.querySelectorAll('.post-tile').forEach(tile => {
+        tile.addEventListener('click', () => {
+          const post = allPosts.find(p => p.id === tile.dataset.id);
+          if (post) openLightbox(post);
+        });
+      });
+    }
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Init ──
+  renderBoard();
+
+  // ── Hamburger ──
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.toggle('open');
+  });
+  </script>
+</body>
+</html>

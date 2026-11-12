@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>梶原のウェブサイト</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="cursor.css" />
+  <link rel="stylesheet" href="index.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700;800&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">🦆</span>
+      <span class="logo-text">梶原のウェブサイト</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#games">GAMES</a></li>
+      <li><a href="#about">ABOUT</a></li>
+      <li><a href="#news">NEWS</a></li>
+      <li><a href="blog.html" class="nav-cta">blog</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="menu">☰</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="blob blob-1">✨</div>
+      <div class="blob blob-2">🪐</div>
+      <img src="assets/img/dabuti.png" alt="" class="hero-burger-bg" />
+    </div>
+    <img src="assets/img/lojakg.gif" alt="" class="hero-cat-img" />
+    <img src="assets/img/McFry.png" alt="" class="hero-fries-img" />
+    <div class="hero-content">
+      <div class="hero-badge">⚠️ 現在整備中！！</div>
+      <h1 class="hero-title">
+        <span class="line-2">梶原の</span>
+        <span class="line-3">ウェブサイト</span>
+        <span class="line-4">&ゲーム!</span>
+      </h1>
+      <p class="hero-desc">
+       ねこ×ジャンクフードというテーマでサイトを作っています。<br>
+       サイト内のバグや改善点があれば下記フォームまで
+      </p>
+      <div class="hero-btns">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScjM1PCplizDocFQvT2k_Tk1xQ-bJfkor9nS8gyiro2ziUb2w/viewform?usp=dialog" class="btn btn-outline">お問い合わせ</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- GAMES -->
+  <section class="games-section" id="games">
+    <div class="section-header">
+      <h2 class="section-title">創作物 ・ <span class="highlight">ゲーム</span></h2>
+      <p class="section-sub">制作したゲームやアプリなど</p>
+    </div>
+    <div class="games-grid">
+      <div class="game-card featured">
+        <div class="game-card-inner">
+          <div class="game-art game-art-1">
+            <div class="game-art-bg"></div>
+            <img src="assets/img/1.png" alt="スタディーモンスター" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+            <div class="game-particles">
+              <span>✨</span><span>🌸</span><span>💀</span><span>🔮</span>
+            </div>
+          </div>
+          <div class="game-info">
+            <div class="game-tags">
+              <span class="tag tag-new">App</span>
+              <span class="tag">Raising Sim</span>
+              <span class="tag">support</span>
+            </div>
+            <h3 class="game-title">スタディーモンスター</h3>
+            <p class="game-desc">学習記録と育成ゲームが一体化したアプリ。習慣の継続化をサポートします！</p>
+            <a href="https://su-studio.com/" class="btn btn-game">PLAY NOW →</a>
+          </div>
+        </div>
+      </div>
+      <div class="game-card">
+        <div class="game-card-inner">
+          <div class="game-art game-art-2">
+            <img src="assets/img/oekaki.png" alt="お絵描き" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" />
+          </div>
+          <div class="game-info">
+            <div class="game-tags">
+              <span class="tag tag-classic">Web</span>
+              <span class="tag">draw</span>
+            </div>
+            <h3 class="game-title">お絵描き掲示板</h3>
+            <p class="game-desc">WEB上でお絵描きして、投稿できます！</p>
+            <a href="oekaki.html" class="btn btn-game">PLAY NOW →</a>
+          </div>
+        </div>
+      </div>
+      <div class="game-card">
+        <div class="game-card-inner">
+          <div class="game-art game-art-3">
+            <div class="game-emoji">🦆</div>
+          </div>
+          <div class="game-info">
+            <div class="game-tags">
+              <span class="tag tag-hard">Web</span>
+            </div>
+            <h3 class="game-title">ぴよぴよ電卓</h3>
+            <p class="game-desc">たたくと鳥の鳴き声の出る電卓を制作します。まだないよ</p>
+            <a href="#" class="btn btn-game">PLAY NOW →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+    <div class="about-blob-bg"></div>
+    <div class="about-content">
+      <div class="about-text">
+        <div class="about-tag">🦖 INTRODUCTION</div>
+        <h2 class="about-title">簡単な<span class="wiggle-text">自己紹介</span></h2>
+        <p>自己紹介ってなに書けばいいかわからないのでテンプレで行きます。</p>
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-num">名前：梶原愛菜</div>
+            <div class="stat-label">Kajihara Aina</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">学部：文学部</div>
+            <div class="stat-label">Faculty of Literature</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">目標：努力</div>
+            <div class="stat-label">Effort</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="team-blob">
+          <img src="assets/img/pikacat.gif" alt="ぴかにゃん" class="about-pikacat" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWS -->
+  <section class="news-section" id="news">
+    <div class="section-header">
+      <h2 class="section-title">最新 <span class="highlight">NEWS</span></h2>
+    </div>
+    <!-- posts.js の内容でJSが動的に生成（最新3件） -->
+    <div class="news-grid" id="newsGrid"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="contact-emoji-bg">👾🎮💀🦖🐑✨🔮🏆</div>
+    <div class="contact-inner">
+      <h2 class="contact-title">Thank you<br />for reading!</h2>
+      <p>これからもブログ更新して、サイトを整備していきます。<br />LA業務も頑張ります!</p>
+      <div class="contact-btns">
+        <a href="#" class="btn btn-primary btn-big">TOP PAGE</a>
+        <a href="blog.html" class="btn btn-outline btn-big">BLOG PAGE</a>
+      </div>
+
+      <p>下はデバックページ</p>
+
+      <div class="social-links">
+        <a href="oekaki.html" class="social-pill">🦆</a>
+        <a href="#" class="social-pill">🐙</a>
+        <a href="#" class="social-pill">✈️</a>
+        <a href="#" class="social-pill">🍰</a>
+        <a href="#" class="social-pill">🎮</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo"><span>👾</span> 梶原のウェブサイト</div>
+      <p class="footer-text">© 2026 kajihara website nanisiyoukana.</p>
+      <div class="footer-links">
+        <a href="#">Neco</a>
+        <a href="#">cafeni</a>
+        <a href="#">ikitai</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- DATA -->
+  <script src="posts.js"></script>
+
+  <script>
+  // ── NEWSセクション ──
+  (function() {
+    const CATEGORY_EMOJI = {
+      game:  "🎮",
+      anime: "📺",
+      life:  "🐑",
+      make:  "🛠️",
+      other: "✨"
+    };
+
+    const grid = document.getElementById('newsGrid');
+    if (!grid || typeof POSTS === 'undefined') return;
+
+    // IDの重複を除去しつつ日付の新しい順に並べ、先頭3件を取得
+    const seen = new Set();
+    const picks = [...POSTS]
+      .sort((a, b) => b.date.localeCompare(a.date))
+      .filter(p => {
+        if (seen.has(p.id)) return false;
+        seen.add(p.id);
+        return true;
+      })
+      .slice(0, 3);
+
+    if (picks.length === 0) {
+      grid.innerHTML = '<p style="text-align:center;color:var(--brown-mid)">まだ記事がないよ</p>';
+      return;
+    }
+
+    grid.innerHTML = picks.map((p, i) => {
+      const big = i === 0 ? 'news-card-big' : '';
+      const emoji = CATEGORY_EMOJI[p.category] || '✨';
+      return `
+        <article class="news-card ${big}">
+          <div class="news-emoji">${emoji}</div>
+          <div class="news-meta">
+            <span class="news-date">${p.dateLabel.toUpperCase()}</span>
+            <span class="news-cat">BLOG</span>
+          </div>
+          <h3>${p.title}</h3>
+          <p>${p.summary.slice(0, 80)}…</p>
+          <a href="blog.html#${p.id}" class="news-link">READ MORE →</a>
+        </article>`;
+    }).join('');
+  })();
+
+  // ── Hamburger ──
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.toggle('open');
+  });
+
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.game-card, .news-card, .stat-box, .about-text, .about-visual').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

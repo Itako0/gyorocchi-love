@@ -1,0 +1,112 @@
+/* =============================================
+   common.css — index.html / blog.html 共通スタイル
+   配色: 薄いオレンジ・薄い青緑・ベージュ・焦茶色
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700;800&family=Kaisei+Decol:wght@400;700&display=swap');
+
+/* ── Variables ──
+   宇宙デザイン: 白 / 黒ベース + サイバー蛍光カラー（コズミックネオン）
+   ── */
+:root {
+  --bg:        #ffffff;
+  --bg-dark:   #f1f1f3;
+  --brown:     #1a1a1a;   /* メインテキスト（白背景では黒） */
+  --brown-dark:#000000;   /* 黒背景・最深色 */
+  --brown-mid: #55555c;   /* サブテキスト（グレー） */
+  --orange:    #19dd3a;   /* 蛍光オレンジ */
+  --orange-deep:#ffd726;  /* 蛍光オレンジレッド（ネオン） */
+  --teal:      #00b7ff;   /* 蛍光グリーン/ティール */
+  --teal-deep: #00a5e6;   /* 蛍光グリーン（濃） */
+  --teal-light:#6ff9ff;   /* コズミックシアン */
+  --cream:     #ffffff;
+  --white:     #ffffff;
+  --accent:    #f4ff3d;   /* 蛍光イエロー */
+  --vsc-blue:   #00c8ff;  /* コズミックエレクトリックブルー */
+  --vsc-purple: #e030ff;  /* コズミックネオンパープル/マゼンタ */
+  --vsc-green:  #39ff8c;  /* コズミックネオングリーン */
+  --vsc-pink:   #ff2ec4;  /* コズミックネオンピンク */
+  --space-bg:   #050212;  /* 宇宙空間の黒（わずかに紫みを帯びた黒） */
+  --space-bg-2: #1a0b3d;  /* 星雲の中心：深い宇宙紫 */
+  --space-text: #f5f5f5;
+  --font-display: 'Kaisei Decol', serif;
+  --font-body:    'Zen Maru Gothic', sans-serif;
+  --font-mincho:  'Shippori Mincho', serif;
+  --radius: 20px;
+  --radius-lg: 32px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--brown); overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 14px 32px; border-radius: 100px; font-family: var(--font-body); font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; border: 2.5px solid transparent; transition: transform 0.15s, box-shadow 0.15s; }
+.btn:hover { transform: translateY(-3px) scale(1.04); }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--orange); color: var(--white); border-color: var(--brown); box-shadow: 4px 4px 0 var(--brown); }
+.btn-primary:hover { box-shadow: 6px 6px 0 var(--brown); }
+.btn-outline { background: transparent; color: var(--brown); border-color: var(--brown); box-shadow: 4px 4px 0 rgba(0,0,0,0.25); }
+.btn-outline:hover { background: var(--brown); color: var(--white); }
+.btn-game { background: var(--teal); color: var(--brown-dark); border-color: var(--brown); box-shadow: 3px 3px 0 var(--brown); font-size: 0.85rem; padding: 10px 22px; }
+.btn-game:hover { box-shadow: 5px 5px 0 var(--brown); background: var(--teal-deep); color: var(--white); }
+.btn-big { font-size: 1.1rem; padding: 18px 40px; }
+
+/* ── Tags ── */
+.tag { font-family: var(--font-body); font-weight: 700; font-size: 0.75rem; letter-spacing: 0.06em; padding: 4px 12px; border-radius: 100px; background: rgba(0,0,0,0.06); border: 1.5px solid rgba(0,0,0,0.15); color: var(--brown-mid); }
+.tag-new { background: var(--orange); color: var(--white); border-color: var(--brown); }
+.tag-classic { background: var(--teal); color: var(--brown-dark); border-color: var(--brown); }
+.tag-hard { background: var(--vsc-purple); color: #ffffff; border-color: var(--brown); }
+
+/* ── Navbar ── */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 5%; background: rgba(5,7,15,0.75); backdrop-filter: blur(12px); border-bottom: 2px solid rgba(255,255,255,0.12); }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 1.4rem; color: var(--space-text); letter-spacing: 0.03em; }
+.logo-icon { font-size: 2rem; animation: bounce 2s ease-in-out infinite; }
+.nav-links { display: flex; align-items: center; gap: 40px; }
+.nav-links a { font-family: var(--font-body); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.08em; color: var(--space-text); opacity: 0.75; transition: opacity 0.2s, color 0.2s; }
+.nav-links a:hover { opacity: 1; color: var(--teal); }
+.nav-cta { background: var(--orange) !important; color: #1a1a1a !important; opacity: 1 !important; padding: 8px 22px; border-radius: 100px; border: 2px solid rgba(255,255,255,0.5) !important; font-family: var(--font-body) !important; font-weight: 700 !important; box-shadow: 3px 3px 0 rgba(255,255,255,0.3); }
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 5px 5px 0 rgba(255,255,255,0.3); }
+.hamburger { display: none; background: none; border: none; color: var(--space-text); font-size: 1.8rem; }
+
+/* ── Ticker ── */
+.ticker-wrap { background: var(--orange); border-top: 3px solid var(--brown); border-bottom: 3px solid var(--brown); overflow: hidden; padding: 14px 0; }
+.ticker { display: flex; gap: 60px; white-space: nowrap; animation: ticker 20s linear infinite; }
+.ticker span { font-family: var(--font-body); font-weight: 700; font-size: 1rem; color: var(--white); letter-spacing: 0.08em; }
+
+/* ── Section Commons ── */
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1; color: var(--brown); }
+.section-sub { color: var(--brown-mid); margin-top: 12px; font-size: 1.1rem; font-family: var(--font-mincho); }
+.highlight { color: var(--orange-deep); text-shadow: 0 0 6px rgba(255,69,0,0.6), 0 0 18px rgba(255,69,0,0.4), 3px 3px 0 rgba(255,69,0,0.25); }
+
+/* ── Footer ── */
+.footer { background: var(--brown-dark); border-top: 3px solid var(--brown); padding: 40px 5%; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.footer-logo { font-family: var(--font-display); font-size: 1.3rem; color: var(--orange); display: flex; align-items: center; gap: 8px; }
+.footer-text { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+.footer-links a:hover { color: var(--cream); }
+
+/* ── Animations ── */
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+@keyframes floatA { 0%, 100% { transform: translateY(0) translateX(0); } 33% { transform: translateY(-20px) translateX(10px); } 66% { transform: translateY(10px) translateX(-15px); } }
+@keyframes floatB { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+@keyframes wiggle { 0%, 90%, 100% { transform: rotate(0deg); } 93% { transform: rotate(-4deg); } 96% { transform: rotate(4deg); } }
+@keyframes teamFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── Responsive (共通) ── */
+@media (max-width: 768px) {
+  .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(5,7,15,0.97); padding: 20px; flex-direction: column; gap: 20px; border-bottom: 3px solid rgba(255,255,255,0.15); }
+  .nav-links.open { display: flex; }
+  .hamburger { display: block; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}

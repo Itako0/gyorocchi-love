@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ブログ — 梶原のウェブサイト</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700;800&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="cursor.css" />
+  <link rel="stylesheet" href="blog.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-icon">🦆</span>
+      <span>梶原のウェブサイト</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#games">GAMES</a></li>
+      <li><a href="index.html#about">ABOUT</a></li>
+      <li><a href="index.html#news">NEWS</a></li>
+      <li><a href="blog.html" class="nav-cta">blog</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="menu">☰</button>
+  </nav>
+
+  <!-- BLOG HERO -->
+  <section class="blog-hero">
+    <div class="blog-hero-badge">✏️ 梶原のブログ</div>
+    <h1>MY <span>BLOG</span></h1>
+    <p>日々のことをゆるっと書きます。<br/>
+    <p>好きな漫画家が絵日記書いてたから私もやりたい。<br/>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="blog-main">
+
+    <!-- POSTS COLUMN -->
+    <section>
+
+      <!-- 記事一覧 -->
+      <div class="posts-list" id="postsList"></div>
+
+      <!-- 記事詳細 -->
+      <div class="article-view" id="articleView">
+        <button class="article-back" id="articleBack">← 一覧に戻る</button>
+        <article>
+          <header class="article-header" id="articleHeader"></header>
+          <div class="article-body" id="articleBody"></div>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-block">
+        <div class="profile-pic">🦆</div>
+        <div class="profile-name">梶原</div>
+        <p class="profile-bio">スプラトゥーンが好き。<br/>インコを飼ってます🦜BIG LOVE<br/>いろんなもの作るのが趣味です</p>
+      </div>
+
+      <div class="sidebar-block">
+        <h3>🏷️ カテゴリ</h3>
+        <div class="tag-cloud" id="tagCloud"></div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3>📅 アーカイブ</h3>
+        <div class="archive-list" id="archiveList"></div>
+      </div>
+
+    </aside>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo"><span>👾</span> 梶原のウェブサイト</div>
+      <p class="footer-text">© 2026 kajihara website nanisiyoukana.</p>
+      <div class="footer-links">
+        <a href="index.html">ホーム</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScjM1PCplizDocFQvT2k_Tk1xQ-bJfkor9nS8gyiro2ziUb2w/viewform?usp=dialog">問い合わせ</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== DATA: posts.js を先に読み込む ===== -->
+  <script src="posts.js"></script>
+
+  <script>
+  // =============================================
+  //  Blog Engine
+  // =============================================
+
+  const POSTS_PER_PAGE = 4;
+
+  let state = {
+    filter: { type: null, value: null }, // { type: 'category'|'archive', value: string }
+    page: 1,
+    openId: null  // 開いている記事ID（URLハッシュ対応）
+  };
+
+  // ── カテゴリ定義 ──
+  const CATEGORIES = [
+    { key: 'all',   label: '🗂️ すべて' },
+    { key: 'game',  label: '🎮 ゲーム' },
+    { key: 'up', label: '📺 アプデ' },
+    { key: 'life',  label: '🌱 日常' },
+    { key: 'make',  label: '🛠️ 創作' },
+  ];
+
+  // ── フィルタ済み記事取得 ──
+  function filteredPosts() {
+    let posts = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+    if (!state.filter.type) return posts;
+    if (state.filter.type === 'category' && state.filter.value !== 'all') {
+      posts = posts.filter(p => p.category === state.filter.value);
+    }
+    if (state.filter.type === 'archive') {
+      const [y, m] = state.filter.value.split('-');
+      posts = posts.filter(p => p.date.startsWith(`${y}-${m}`));
+    }
+    return posts;
+  }
+
+  // ── 記事一覧レンダリング ──
+  function renderList() {
+    const listEl  = document.getElementById('postsList');
+    const viewEl  = document.getElementById('articleView');
+    listEl.classList.remove('hidden');
+    viewEl.classList.remove('visible');
+    state.openId = null;
+    history.replaceState(null, '', location.pathname);
+
+    const posts = filteredPosts();
+    const total = posts.length;
+    const totalPages = Math.max(1, Math.ceil(total / POSTS_PER_PAGE));
+    state.page = Math.min(state.page, totalPages);
+
+    const slice = posts.slice((state.page - 1) * POSTS_PER_PAGE, state.page * POSTS_PER_PAGE);
+
+    if (slice.length === 0) {
+      listEl.innerHTML = `
+        <div class="no-results">
+          <div class="no-results-emoji">🦖</div>
+          <p>この条件に合う記事がまだないみたい…</p>
+        </div>`;
+    } else {
+      listEl.innerHTML = slice.map((p, i) => postCardHTML(p, i)).join('') + paginationHTML(totalPages);
+    }
+
+    // カード → 記事詳細
+    listEl.querySelectorAll('.post-read-more').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        openArticle(btn.dataset.id);
+      });
+    });
+
+    // ページネーション
+    listEl.querySelectorAll('.page-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.page = parseInt(btn.dataset.page);
+        renderList();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  }
+
+  function postCardHTML(p, i) {
+    const featured = p.featured ? 'featured-post' : '';
+    const featuredLabel = p.featured ? '<span class="featured-label">⭐ FEATURED</span>' : '';
+    const tagClass = 'tag-' + p.category;
+    return `
+      <article class="post-card ${featured}" style="animation-delay:${(i + 1) * 0.1}s">
+        <div class="post-meta">
+          ${featuredLabel}
+          <span class="post-date">${p.dateLabel}</span>
+          <span class="post-tag ${tagClass}">${p.categoryLabel}</span>
+        </div>
+        <h2>${p.title}</h2>
+        <p class="post-summary">${p.summary}</p>
+        <button class="post-read-more" data-id="${p.id}">続きを読む →</button>
+      </article>`;
+  }
+
+  function paginationHTML(totalPages) {
+    if (totalPages <= 1) return '';
+    let btns = '';
+    for (let i = 1; i <= totalPages; i++) {
+      btns += `<button class="page-btn ${i === state.page ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    btns += `<button class="page-btn" data-page="${Math.min(state.page + 1, totalPages)}" ${state.page >= totalPages ? 'disabled' : ''}>→</button>`;
+    return `<div class="pagination">${btns}</div>`;
+  }
+
+  // ── いいねボタンHTML ──
+  function renderLikeButton(id) {
+    const count = parseInt(localStorage.getItem('likes_' + id)) || 0;
+    return `
+      <div class="like-section">
+        <button class="like-btn" id="likeBtn">
+          <span class="like-heart">❤️</span>
+          <span class="like-label">いいね！</span>
+        </button>
+        <span class="like-count" id="likeCount">${count}</span>
+      </div>`;
+  }
+
+  // ── 記事詳細レンダリング ──
+  function openArticle(id) {
+    const post = POSTS.find(p => p.id === id);
+    if (!post) return;
+    state.openId = id;
+
+    document.getElementById('postsList').classList.add('hidden');
+    const viewEl = document.getElementById('articleView');
+    viewEl.classList.add('visible');
+
+    const tagClass = 'tag-' + post.category;
+    document.getElementById('articleHeader').innerHTML = `
+      <div class="post-meta">
+        <span class="post-date">${post.dateLabel}</span>
+        <span class="post-tag ${tagClass}">${post.categoryLabel}</span>
+      </div>
+      <h1>${post.title}</h1>`;
+    document.getElementById('articleBody').innerHTML = post.body + renderLikeButton(id);
+
+    // いいねボタンのイベント
+    document.getElementById('likeBtn').addEventListener('click', () => {
+      const key = 'likes_' + id;
+      const count = (parseInt(localStorage.getItem(key)) || 0) + 1;
+      localStorage.setItem(key, count);
+      document.getElementById('likeCount').textContent = count;
+      const btn = document.getElementById('likeBtn');
+      btn.classList.add('liked');
+      setTimeout(() => btn.classList.remove('liked'), 400);
+    });
+
+    history.replaceState(null, '', `#${id}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('articleBack').addEventListener('click', () => {
+    renderList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ── サイドバー: カテゴリ ──
+  function renderTagCloud() {
+    const el = document.getElementById('tagCloud');
+    el.innerHTML = CATEGORIES.map(c => {
+      const active = state.filter.type === 'category' && state.filter.value === c.key
+                     || (c.key === 'all' && !state.filter.type);
+      return `<button class="${active ? 'active' : ''}" data-cat="${c.key}">${c.label}</button>`;
+    }).join('');
+    el.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.filter = btn.dataset.cat === 'all' ? { type: null, value: null } : { type: 'category', value: btn.dataset.cat };
+        state.page = 1;
+        renderAll();
+      });
+    });
+  }
+
+  // ── サイドバー: アーカイブ ──
+  function renderArchive() {
+    // 年月ごとに集計
+    const map = {};
+    POSTS.forEach(p => {
+      const ym = p.date.slice(0, 7); // "2026-05"
+      map[ym] = (map[ym] || 0) + 1;
+    });
+    const sorted = Object.keys(map).sort((a, b) => b.localeCompare(a));
+    const el = document.getElementById('archiveList');
+    el.innerHTML = sorted.map(ym => {
+      const [y, m] = ym.split('-');
+      const label = `${y}年${parseInt(m)}月`;
+      const active = state.filter.type === 'archive' && state.filter.value === ym;
+      return `<button class="${active ? 'active' : ''}" data-ym="${ym}">${label} <span class="archive-count">${map[ym]}</span></button>`;
+    }).join('');
+    el.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const ym = btn.dataset.ym;
+        state.filter = state.filter.value === ym ? { type: null, value: null } : { type: 'archive', value: ym };
+        state.page = 1;
+        renderAll();
+      });
+    });
+  }
+
+  function renderAll() {
+    renderList();
+    renderTagCloud();
+    renderArchive();
+  }
+
+  // ── URLハッシュで直接記事を開く ──
+  function handleHash() {
+    const hash = location.hash.slice(1);
+    if (hash && POSTS.find(p => p.id === hash)) {
+      renderTagCloud();
+      renderArchive();
+      openArticle(hash);
+    } else {
+      renderAll();
+    }
+  }
+
+  // ── Init ──
+  handleHash();
+  window.addEventListener('hashchange', handleHash);
+
+  // ── Hamburger ──
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.toggle('open');
+  });
+  </script>
+</body>
+</html>

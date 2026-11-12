@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>report.js - Visual Studio Code</title>
+<style>
+  :root{
+    --bg-editor:#1e1e1e;
+    --bg-titlebar:#3c3c3c;
+    --bg-tabbar:#252526;
+    --bg-tab-active:#1e1e1e;
+    --bg-tab-inactive:#2d2d2d;
+    --bg-sidebar:#252526;
+    --bg-statusbar:#007acc;
+    --text-main:#d4d4d4;
+    --text-linenum:#858585;
+    --text-comment:#6a9955;
+    --text-string:#ce9178;
+    --text-keyword:#569cd6;
+    --text-func:#dcdcaa;
+    --border:#2b2b2b;
+    --accent:#569cd6;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    background:#1e1e1e;
+    font-family:"Consolas","Courier New",monospace;
+    color:var(--text-main);
+  }
+  .window{
+    display:flex;flex-direction:column;
+    height:100vh;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  /* タイトルバー */
+  .titlebar{
+    background:var(--bg-titlebar);
+    height:34px;
+    display:flex;align-items:center;
+    padding:0 12px;
+    flex-shrink:0;
+    -webkit-user-select:none;user-select:none;
+  }
+  .dots{display:flex;gap:8px;margin-right:16px;}
+  .dot{width:12px;height:12px;border-radius:50%;}
+  .dot.red{background:#ff5f56;}
+  .dot.yellow{background:#ffbd2e;}
+  .dot.green{background:#27c93f;}
+  .titlebar-label{
+    font-size:12px;color:#cccccc;
+    margin:0 auto;
+    transform:translateX(-30px);
+  }
+  /* メニューバー */
+  .menubar{
+    background:var(--bg-titlebar);
+    display:flex;gap:18px;
+    padding:0 16px 6px 16px;
+    font-size:12.5px;color:#cccccc;
+    flex-shrink:0;
+    -webkit-user-select:none;user-select:none;
+  }
+  /* タブバー */
+  .tabbar{
+    background:var(--bg-tabbar);
+    display:flex;
+    flex-shrink:0;
+    border-bottom:1px solid var(--border);
+  }
+  .tab{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 16px;
+    font-size:13px;
+    background:var(--bg-tab-inactive);
+    color:#969696;
+    border-right:1px solid var(--border);
+    -webkit-user-select:none;user-select:none;
+  }
+  .tab.active{
+    background:var(--bg-tab-active);
+    color:#ffffff;
+    border-top:2px solid var(--accent);
+    padding-top:6px;
+  }
+  .tab-icon{width:14px;height:14px;display:inline-block;}
+  .tab-close{margin-left:6px;opacity:0.6;}
+
+  /* メイン領域 */
+  .main{
+    flex:1;
+    display:flex;
+    min-height:0;
+    background:var(--bg-editor);
+  }
+  /* サイドバー */
+  .sidebar{
+    width:220px;
+    background:var(--bg-sidebar);
+    border-right:1px solid var(--border);
+    font-size:13px;
+    padding:14px 0;
+    flex-shrink:0;
+    -webkit-user-select:none;user-select:none;
+  }
+  .sidebar-title{
+    color:#bbbbbb;
+    font-size:11px;
+    letter-spacing:1px;
+    padding:0 20px 10px 20px;
+  }
+  .file-item{
+    padding:4px 20px 4px 28px;
+    color:#cccccc;
+  }
+  .file-item.active{
+    background:#37373d;
+  }
+  .folder-item{
+    padding:4px 20px;
+    color:#cccccc;
+    display:flex;align-items:center;gap:6px;
+  }
+
+  /* エディタ本体 */
+  .editor-scroll{
+    flex:1;
+    overflow-y:auto;
+    display:flex;
+  }
+  .linenumbers{
+    padding:16px 12px 16px 18px;
+    text-align:right;
+    color:var(--text-linenum);
+    font-size:14px;
+    line-height:1.7;
+    -webkit-user-select:none;user-select:none;
+    flex-shrink:0;
+  }
+  .code{
+    flex:1;
+    padding:16px 24px 60px 12px;
+    font-size:14px;
+    line-height:1.7;
+    white-space:pre-wrap;
+    outline:none;
+  }
+  .kw{color:var(--text-keyword);}
+  .fn{color:var(--text-func);}
+  .str{color:var(--text-string);}
+  .cm{color:var(--text-comment);}
+  .punct{color:#d4d4d4;}
+  .count{
+    display:block;
+    font-size:13px;
+    opacity:0.85;
+    margin:2px 0 8px 0;
+  }
+
+  .editable{
+    outline:none;
+    color:var(--text-string);
+    display:block;
+    min-height:1.4em;
+  }
+  .editable:focus{
+    background:rgba(86,156,214,0.06);
+  }
+  .placeholder{
+    color:#6a6a6a;
+    font-style:italic;
+  }
+
+  /* ステータスバー */
+  .statusbar{
+    background:var(--bg-statusbar);
+    color:#ffffff;
+    font-size:12px;
+    padding:3px 14px;
+    display:flex;
+    justify-content:space-between;
+    flex-shrink:0;
+    -webkit-user-select:none;user-select:none;
+  }
+  .statusbar .left, .statusbar .right{display:flex;gap:14px;}
+
+  /* スクロールバー */
+  .editor-scroll::-webkit-scrollbar{width:14px;}
+  .editor-scroll::-webkit-scrollbar-thumb{background:#3e3e42;border-radius:7px;border:3px solid var(--bg-editor);}
+  .editor-scroll::-webkit-scrollbar-track{background:var(--bg-editor);}
+
+  @media (max-width:700px){
+    .sidebar{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="window">
+
+  <!-- タイトルバー -->
+  <div class="titlebar">
+    <div class="dots">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    <div class="titlebar-label">main.js — my-code — Visual Studio Code</div>
+  </div>
+
+  <!-- メニューバー -->
+  <div class="menubar">
+    <span>ファイル</span><span>編集</span><span>選択</span><span>表示</span><span>移動</span><span>実行</span><span>ターミナル</span><span>ヘルプ</span>
+  </div>
+
+  <!-- タブバー -->
+  <div class="tabbar">
+    <div class="tab active">
+      <span>📄</span><span>main.js</span><span class="tab-close">✕</span>
+    </div>
+    <div class="tab">
+      <span>📄</span><span>references.md</span>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- サイドバー(エクスプローラー) -->
+    <div class="sidebar">
+      <div class="sidebar-title">エクスプローラー</div>
+      <div class="folder-item">📁 my-code</div>
+      <div class="file-item active">📄 main.js</div>
+      <div class="file-item">📄 references.md</div>
+      <div class="file-item">📄 README.md</div>
+    </div>
+
+    <!-- エディタ -->
+    <div class="editor-scroll">
+      <div class="linenumbers" id="linenumbers"></div>
+      <div class="code" id="codearea">
+<span class="cm" id="block-references">
+＜参考文献＞
+
+釈迦の死を悲しむ
+ある人物の生涯を絵や彫刻で表し、その教えや徳を偲ぶのは、キリスト教でも仏教でも同じである。仏教を開いた釈迦が亡くなったのは、紀元前四世紀とも、同五世紀、同六世紀と
+も言われるが、誕生や苦行、悟りを開くところ、人々に教えを説く様子など、亡くなるまでのいくつもの場面がインドでは石の彫刻に表されてきた。そして、仏教の教えとともに、
+そうした信仰のために用いる造形もインドから中央アジアへ、更に中国や朝鮮半島の国々へ、そして日本へと伝わり、日本でも釈迦の生涯が造形化されてきた。
+例えば、飛鳥時代に建てられた法隆寺の五重塔の一番下の層には、釈迦の生涯の中の四つの場面をジオラマのように表した、土で造った群像がある。奈良時代の和銅四年（七一一）
+、既にあった五重塔に付け加えられたものである。また、同じく奈良時代の『絵因果経』という巻物にも、釈迦の前世と現世でのいくつかの場面が描かれている。こうした釈迦の生
+涯の一場面として、臨終、つまり涅槃に入る光景も日本でも造形化されたわけだが、しかし、それとは別に、釈迦の臨終の場面だけを描いた「涅槃図」が作られた。恐らくこれも、
+中国の涅槃図に倣ってはじめったと考えられる。
+単独で涅槃図が描かれるようになったのは、釈迦の命日に行われる湿製会という儀式で用いるためである。日本では、インドとは違って、釈迦を現実の生身の人間としてというよ
+り、現実みの薄い観念の世界の仏として祀る意識が強い。そんなこともあって、生涯の物語よりも、儀式で用いる仏画としての涅図の方が盛んに作られたようである。
+
+涅槃図の高精度化
+涅槃会が盛んに行われるようになると、涅槃図も、釈迦の生涯の一場面をただ描くだけでなく、より詳しく、よりドラマティックに描かれるようになっていった。
+その際に典拠になったのは「大般涅槃経』、通称『涅槃教』という経典である。涅槃経には数種類あるが、四世紀にインドで成立したものが中国に伝わり、漢語に翻訳され、日本に
+も伝えられ、涅槃図をより詳しく描くための重要な拠り所となったようだ。
+現存する日本の涅槃図で一番古いのは高野山に伝えられるもので、平安時代後期の応徳三年（一〇八六）に描かれたので、「応徳涅槃」と呼ばれている。釈迦の生涯の一場面として
+のインドの涅槃の造形や、法隆寺の五重塔のそれには、釈迦の死を悲しむ動物はいないが、「涅槃教」には、生き物たちが集まり悲しんだと書かれている。それをうけて、「応徳涅
+槃」には、釈迦の弟子たちや天界から駆けつけた釈迦の母らに加えて、一頭の獅子がいる。「涅槃経』に出てくる沢山の生き物の代表として登場させたのだろう。
+獅子は体をよじり、天を仰ぎ、もだえるようにして悲しみを表している。大きいうえに動きが劇的で、見れば「動物も悲しいんだな」と思えてくる描写である。もちろん実物の獅子
+を見て描くことはできないから、中国から伝わった何らかの獅子の図をもとに、激しく悲しむ動きを想像して描いたのだろう。
+
+美しい涅槃図
+続く鎌倉時代になると、涅槃図の動物たちの数が途端に増える。そもそも平安時代の涅蝶図で現存するのは「応徳涅槃」だけだが、鎌倉時代のものは非常に多い。
+仏涅槃図は元亨三年（一三二三）に描かれた混繋図で、画面の縦が二m七〇cm以上もあり、また絵画としても非常に美しい。青や緑、ピンクなどの、現代風に言えばパステル調のト
+ーンは、中国の宋時代や元時代に流行した絵画の色づかいの影響によるものだろう。一つ一つの動物たちも丹念に描かれ、姿かたちが整っている。
+画面の下方、中央近くに白い象と青い獅子がいる。象の右上の青い動物は麒麟である。
+
+その右には、猪や鳳凰（金翅鳥）、小さな兎や鹿、鶏鴦、
+約と虎、猿、犬、鶴、反対の左側には、獅子の下に亀や蛙がいて、鷺、鳥、人の頭を持った迦陵頻伽、孔雀、
+鶏、牛、馬などが描かれている。大きな動物は大きく、小さな動物は小さく、全てがしっかりと表されている。
+こうした涅槃図を見ていて、私は胸が熱くなることがある。なぜなら、動物たちが悲しみや那迦への感謝を精一杯表しているのが伝わってくるからである。一番目立つ白象は、長い
+身で釈迦に捧げる花を持ったまま、腹を上にして、大きな体で悲しみを露わにしている。花をくわえて天を仰ぐ孔雀。小さな蛙まで花をくわえている。動物たちは、駆けつける途中
+のどこかで花を見つけ、大切にくわえてきたのだろう。
+ところが、この湿薬図や、同じ鎌倉時代に作られた他の湿図、更には、その後の室町時代から江戸時代にかけて描かれた涅槃図には、『涅槃経』に出てこない動物が沢山登場してい
+るのである。
+先ほど『涅槃経』には数種類あると述べたが、その中で特に日本で親しまれ、涅槃図を詳しく描く際の典拠にもなった、雲無識という僧が漢訳した経典の内容と実際の涅槃図を照ら
+し合わせてみると、獅子や象は別として、多くの涅槃図に定番の動物として描かれている猿、虎、約、馬、鹿、猪、兎、屋、、蛙、鵞鳥、鶏、鶴、雉などは、『涅槃経』には出てこ
+ないことがわかる。つまり、日本の涅槃図オリジナルの動物なのである。
+鎌倉時代の涅槃図には八〇種類以上の動物が描かれたものもあるし、更に江戸時代になると、海の生き物も登場する。例えば、名古屋市の西来寺の<八相涅槃図＞や京都の真正極楽
+寺の涅槃図では、海が表され、魚や鯨まで描かれている。どちらの図でも、鯨は花の代わりに海の宝石である珊瑚をくわえ、釈迦の臨終に駆けつけている。
+
+動物が増えた理由
+もちろん中国の涅槃図にも動物が描かれたものはあるが、ここまで賑やかなのは、日本の涅槃図だけである。経典に書かれていることを大事にしつつ、「あらゆる生き物が人と同じ
+ように釈迦の死を悲しんでいる」ということを更に強く表現するために、経典には出てこない大小様々な動物たちを目一杯描く・・・・・それが日本の人たちが描き、拝してきた涅
+槃図なのである。
+それにしても、仏教が伝わった国のうち、なぜ日本だけでこんな現象が起きたのかが興味深い。動物の命についての仏教の教えが、ことのほか日本の人々に響いたのだろうか。
+可能性としては、仏教が入ってくる以前からあった神道でも、動物に神性を感じて祀ってきたことが考えられる。先に触れたように、動物たちを自然界に放つ「放生」の儀式も、古
+代から寺院や神社で行われてきたし、また、肉食の禁止令も古代から朝廷によって何度も出されてきた。つまり、国として、動物の命を慈しむ気持ちを重んじてきたのである。
+そうして培われてきた動物への思いが、日本独自の涅槃図が生まれた背景にあるのかもしれない。
+
+</span>
+<div class="cm count" id="ref-count">// 文字数: 0字</div>
+
+<span class="kw">import</span> { Report } <span class="kw">from</span> <span class="str">'./university'</span>;
+
+<span class="cm" id="block-report">
+  本レポートで取り上げるのは、名古屋市西来寺に所蔵されている「八相涅槃図」である。涅槃図は釈迦の入滅の場面を描いた仏画であり、
+  日本では鎌倉時代以降、数多くの作例が生み出されてきた（参考文献「美しい涅槃図」の項による）。中でも八相涅槃図は、『涅槃経』には登
+  場しない海洋生物が描かれている点で特異な作例であり、日本独自に発展した涅槃図の性格をよく示している。本レポート
+  では、この作品の歴史的背景、信仰上の位置づけ、造形的特徴を整理したうえで、なぜ日本の涅槃図がこれほど多様な動物を描くに
+  至ったのかについて、参考文献の見解を踏まえつつ自分の考察を加えたい。
+
+  まず、涅槃図がどのような経緯で成立し、八相涅槃図がその中でどう位置づけられるかを確認しておく。仏教美術において釈迦の生
+  涯を造形化する伝統はインドから始まり、中央アジア・中国・朝鮮半島を経て日本に伝わったとされる（参考文献「釈迦の死を悲しむ
+  」の項による）。日本では法隆寺五重塔の塑像群や『絵因果経』のように釈迦の生涯を連続する場面として表す作品がある一方、臨終
+  の場面のみを独立させて描く涅槃図も成立した。これは中国の涅槃図に倣って始まったと考えられている（同）。現存最古の作品
+  は平安時代後期の「応徳涅槃」（一〇八六年）であり、そこには経典に基づき悲しむ生き物の代表として一頭の獅子のみが描かれてい
+  る（参考文献「涅槃図の高精度化」の項による）。西来寺の八相涅槃図はこれより時代が経ち、鎌倉時代以降に作られた、より詳細
+  で劇的な涅槃図表現の系譜に連なる作品であり、江戸時代にかけて発展した海の涅槃図の一例として位置づけられる（参考文献「動物
+  が増えた理由」の項による）。
+
+  次に、涅槃図が信仰上どのような役割を果たしてきたかについて述べる。涅槃図が単独の画題として盛んに描かれた背景には、釈迦の命日
+  に営まれる涅槃会という法要でこれを掲げる習慣があったとされる（参考文献「釈迦の死を悲しむ」の項による）。日本ではインドと異な
+  り、釈迦を生身の人間としてよりも観念的な仏として祀る意識が強かったため、生涯全体の物語よりも儀式用の涅槃図が好まれたという見
+  方が示されている（同）。この指摘を踏まえるなら、八相涅槃図もまた、涅槃会という儀礼の場で人々の祈りの対象となる作品であったと
+  考えられる。
+
+  続いて、八相涅槃図の造形上の特徴を、特に鯨が珊瑚をくわえる場面を中心に見ていきたい。八相涅槃図の最大の特色は、絵の左下に海があり、
+  魚や鯨までもが描き込まれている点にある。注目すべきは、鯨が花の代わりに海の宝石とされる珊瑚をくわえて釈迦のもとへ
+  駆けつけている場面である。他の動物たちが陸に咲く花を口にくわえて悲しみを表すのに対し、鯨だけは海の生き物にらしく、
+  海でしか得られない珊瑚を捧げ物として選んでいる。私は、この描き分けが、陸の生き物と海の生き物が、それぞれ自分たちの世界で最も
+  美しいものを釈迦に捧げるという発想に基づいていると考えた。全体として、大きな動物は大きく、小さな動物は小さく丁寧に描き分け
+  られ、悲しみの表現も多様だ。象は身を這いつくばるようにふさぎ込み悲嘆する姿で、牛は吠えるように上を仰ぎ見て悲しみを表現するというように、
+  種によって異なる仕草で悲しみが表現されている。
+
+  ここからは、なぜ多様な動物、とりわけ鯨と珊瑚という組み合わせが描かれるに至ったのかについて、参考文献の見解と自分の考
+  察を述べる。参考文献では、日本の涅槃図に経典外の動物が多数描かれるようになった背景として、神道における動物への神性の意
+  識や、放生・肉食禁止といった古代以来の生命尊重の慣習が挙げられている（参考文献「動物が増えた理由」の項による）。この見解は、
+  動物を人と等しく悲しみうる存在として描こうとする姿勢の背景を説明するものとして説得力がある。
+  私はこれに加えて、鯨が珊瑚をくわえている点に意味があると考える。花をくわえる動物たちが陸で採れるものを釈迦に捧げているとすれば、
+  珊瑚をくわえる鯨は海で採れるものを捧げていることになる。この二つが同じ画面に描かれることで、釈迦の死を悲しんでいるのが陸の生き物だけで
+  なく、海の生き物にまで広がっていることが分かりやすく示されている。日本が周囲を海に囲まれた島国であることも、海の生き物までもが涅槃図に描き込ま
+  れた一因ではないかと思う。内陸国であれば海の生き物は日常生活からは遠い存在だが、日本では海や海の生き物が身近であったぶん、涅槃図を描く際にも
+  自然と発想に入ってきたのではないだろうか。さらに、涅槃図が涅槃会という不特定多数の参詣者に向けた儀礼画であった点も、動物の種類が増えていった
+  一因ではないかと考える。多種多様な動物を描き込むことで、身分や立場の異なる参詣者それぞれが、自分にとって身近な
+  生き物の姿に自らの悲しみを重ね合わせることができたのではないだろうか。鯨と珊瑚の場面は、陸だけでなく海の生き物までもが釈迦を悲しんでいるこ
+  とを示す、最も分かりやすい例だといえる。
+
+  最後に、本レポートの考察をまとめる。八相涅槃図は、経典に基づく仏画でありながら、日本独自の動物観を反映した作品である。とりわけ鯨が
+  珊瑚をくわえて駆けつける場面は、陸と海という異なる世界の生き物がともに釈迦を悼むという、島国の日本ならではの発想を表した表現
+  であるといえる。その造形の背後には、儀礼としての涅槃会という機能と、あらゆる生き物の命を慈しむ日本人の感性とが重なり合ってい
+  る。
+ 
+</span>
+<div class="cm count" id="report-count">// 文字数: 0字</div>
+<span class="kw">const</span> <span class="fn">reportBody</span> = <span class="punct">`</span><span class="editable" contenteditable="true" data-placeholder="ここにレポート本文を貼り付け"></span><span class="punct">`;</span>
+
+<span class="kw">function</span> <span class="fn">printReport</span>() {
+  console.<span class="fn">log</span>(reportBody);
+}
+
+<span class="cm">/* -----------------------------------------------
+ *  SECTION 2: 参考文献
+ *  
+ * ----------------------------------------------- */</span>
+<span class="kw">const</span> <span class="fn">references</span> = <span class="punct">`</span><span class="editable" contenteditable="true" data-placeholder="ここに参考文献を貼り付け（1行1件）"></span><span class="punct">`;</span>
+
+<span class="kw">function</span> <span class="fn">printReferences</span>() {
+  console.<span class="fn">log</span>(references);
+}
+
+printReport();
+printReferences();
+</div>
+    </div>
+  </div>
+
+  <!-- ステータスバー -->
+  <div class="statusbar">
+    <div class="left">
+      <span>⎇ main</span>
+      <span>✓ 0  ⚠ 0</span>
+    </div>
+    <div class="right">
+      <span>行 1, 列 1</span>
+      <span>UTF-8</span>
+      <span>JavaScript</span>
+      <span>🔔</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 行番号を自動生成
+  const code = document.getElementById('codearea');
+  const lineNumbers = document.getElementById('linenumbers');
+  function updateLineNumbers(){
+    const lines = code.innerText.split('\n').length;
+    let html = '';
+    for(let i=1;i<=lines;i++){ html += i + '<br>'; }
+    lineNumbers.innerHTML = html;
+  }
+  updateLineNumbers();
+  new MutationObserver(updateLineNumbers).observe(code, {childList:true, subtree:true, characterData:true});
+
+  // 文字数を計算して表示(改行・空白は除く)
+  function countChars(text){
+    return text.replace(/[\s\u3000]/g, '').length;
+  }
+  function updateCounts(){
+    const reportEl = document.getElementById('block-report');
+    const refEl = document.getElementById('block-references');
+    if(reportEl){
+      const len = countChars(reportEl.innerText);
+      document.getElementById('report-count').textContent = '// 文字数: ' + len + '字';
+    }
+    if(refEl){
+      const len = countChars(refEl.innerText);
+      document.getElementById('ref-count').textContent = '// 文字数: ' + len + '字';
+    }
+  }
+  updateCounts();
+
+  // プレースホルダー表示
+  document.querySelectorAll('.editable').forEach(el=>{
+    const ph = el.getAttribute('data-placeholder');
+    function refresh(){
+      if(el.innerText.trim() === ''){
+        el.classList.add('placeholder');
+        if(el.innerText.trim()==='') el.innerText = ph;
+      }
+    }
+    el.addEventListener('focus', ()=>{
+      if(el.classList.contains('placeholder')){
+        el.innerText='';
+        el.classList.remove('placeholder');
+      }
+    });
+    el.addEventListener('blur', refresh);
+    refresh();
+  });
+</script>
+
+</body>
+</html>
