@@ -2,10 +2,13 @@
    oekaki.css — お絵かき掲示板専用スタイル
    ============================================= */
 
+/* ── 背景の光の丸（heroと同じデザイン・ページ全体に固定表示） ── */
+body::before { content: ''; position: fixed; inset: -60px; background: var(--glow-shapes); pointer-events: none; z-index: -1; animation: floatA 14s ease-in-out infinite; }
+
 /* ── Hero ── */
 .oekaki-hero {
   padding: 140px 5% 60px;
-  background: var(--bg);
+  background: transparent;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -37,7 +40,7 @@
 .oekaki-hero h1 {
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 6rem);
-  color: var(--brown);
+  color: var(--page-text);
   line-height: 1.1;
   margin-bottom: 16px;
   animation: oSlideUp 0.6s 0.1s both;
@@ -45,7 +48,7 @@
 .oekaki-hero h1 span { color: var(--teal-deep); }
 .oekaki-hero p {
   font-family: var(--font-mincho);
-  color: var(--brown-mid);
+  color: var(--page-text-sub);
   font-size: 1.1rem;
   line-height: 1.8;
   animation: oSlideUp 0.6s 0.2s both;
@@ -282,7 +285,7 @@
   padding: 10px 16px;
   border: 2px solid rgba(0,0,0,0.25);
   border-radius: 100px;
-  background: var(--bg);
+  background: #fff;
   font-family: var(--font-mincho);
   font-size: 1rem;
   color: var(--brown);
@@ -320,7 +323,7 @@
 .board-header h2 {
   font-family: var(--font-display);
   font-size: 2rem;
-  color: var(--brown);
+  color: var(--page-text);
 }
 
 /* Archive filter */
@@ -418,7 +421,7 @@
 .no-posts {
   text-align: center;
   padding: 60px 20px;
-  color: var(--brown-mid);
+  color: var(--page-text-sub);
   font-family: var(--font-mincho);
   font-size: 1.1rem;
 }

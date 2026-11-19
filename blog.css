@@ -2,10 +2,13 @@
    blog.css — blog.html 専用スタイル
    ============================================= */
 
+/* ── 背景の光の丸（heroと同じデザイン・ページ全体に固定表示） ── */
+body::before { content: ''; position: fixed; inset: -60px; background: var(--glow-shapes); pointer-events: none; z-index: -1; animation: floatA 14s ease-in-out infinite; }
+
 /* ── Blog Hero ── */
 .blog-hero {
   padding: 140px 5% 60px;
-  background: var(--bg);
+  background: transparent;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -37,7 +40,7 @@
 .blog-hero h1 {
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 6rem);
-  color: var(--brown);
+  color: var(--page-text);
   line-height: 1.1;
   margin-bottom: 16px;
   animation: slideUp 0.6s 0.1s both;
@@ -45,7 +48,7 @@
 .blog-hero h1 span { color: var(--orange-deep); }
 .blog-hero p {
   font-family: var(--font-mincho);
-  color: var(--brown-mid);
+  color: var(--page-text-sub);
   font-size: 1.1rem;
   line-height: 1.8;
   max-width: 600px;
@@ -99,7 +102,7 @@
 .post-read-more:hover { background: var(--teal); color: var(--brown-dark); transform: translateY(-2px); }
 
 /* ── No results ── */
-.no-results { text-align: center; padding: 60px 20px; color: var(--brown-mid); font-family: var(--font-mincho); font-size: 1.1rem; }
+.no-results { text-align: center; padding: 60px 20px; color: var(--page-text-sub); font-family: var(--font-mincho); font-size: 1.1rem; }
 .no-results .no-results-emoji { font-size: 4rem; margin-bottom: 16px; }
 
 /* ── Pagination ── */
@@ -108,12 +111,12 @@
   width: 40px; height: 40px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
-  border: 2px solid rgba(0,0,0,0.2);
+  border: 2px solid rgba(255,255,255,0.35);
   background: none;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.9rem;
-  color: var(--brown-mid);
+  color: var(--page-text-sub);
   transition: all 0.2s;
 }
 .pagination button:hover, .pagination button.active { background: var(--orange); border-color: var(--brown); color: var(--white); }
@@ -134,16 +137,17 @@
 .article-back:hover { background: var(--teal); color: var(--brown-dark); }
 .article-header { margin-bottom: 36px; }
 .article-header .post-meta { margin-bottom: 16px; }
-.article-header h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); color: var(--brown); line-height: 1.2; }
+.article-header h1 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); color: var(--page-text); line-height: 1.2; }
+.article-header .post-date { color: var(--page-text-sub); }
 .article-body {
   font-family: var(--font-mincho);
-  color: var(--brown-mid);
+  color: var(--page-text-sub);
   line-height: 2;
   font-size: 1.05rem;
 }
 .article-body p { margin-bottom: 20px; }
-.article-body h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--brown); margin: 32px 0 12px; padding-left: 12px; border-left: 4px solid var(--orange); }
-.article-body strong { color: var(--brown); font-weight: 700; }
+.article-body h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--page-text); margin: 32px 0 12px; padding-left: 12px; border-left: 4px solid var(--orange); }
+.article-body strong { color: var(--page-text); font-weight: 700; }
 .article-body ol, .article-body ul { padding-left: 24px; margin-bottom: 20px; }
 .article-body li { margin-bottom: 8px; }
 

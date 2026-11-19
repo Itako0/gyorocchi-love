@@ -9,7 +9,9 @@
    宇宙デザイン: 白 / 黒ベース + サイバー蛍光カラー（コズミックネオン）
    ── */
 :root {
-  --bg:        #ffffff;
+  --bg:        #000000;   /* ページ背景（黒） */
+  --page-text: #f5f5f5;   /* 黒背景の上に直接置く文字（白） */
+  --page-text-sub: rgba(245,245,245,0.75); /* 黒背景の上のサブ文字 */
   --bg-dark:   #f1f1f3;
   --brown:     #1a1a1a;   /* メインテキスト（白背景では黒） */
   --brown-dark:#000000;   /* 黒背景・最深色 */
@@ -29,6 +31,11 @@
   --space-bg:   #050212;  /* 宇宙空間の黒（わずかに紫みを帯びた黒） */
   --space-bg-2: #1a0b3d;  /* 星雲の中心：深い宇宙紫 */
   --space-text: #f5f5f5;
+  /* heroの色とりどりの光の丸を再現（各セクション・ページで共通利用） */
+  --glow-shapes:
+    radial-gradient(circle 330px at 4% 6%,   rgba(25,221,58,0.18) 0%, rgba(25,221,58,0.18) 45%, transparent 100%),
+    radial-gradient(circle 280px at 88% 96%, rgba(0,183,255,0.18) 0%, rgba(0,183,255,0.18) 45%, transparent 100%),
+    radial-gradient(circle 220px at 68% 36%, rgba(224,48,255,0.18) 0%, rgba(224,48,255,0.18) 45%, transparent 100%);
   --font-display: 'Kaisei Decol', serif;
   --font-body:    'Zen Maru Gothic', sans-serif;
   --font-mincho:  'Shippori Mincho', serif;
@@ -79,12 +86,12 @@ ul { list-style: none; }
 
 /* ── Section Commons ── */
 .section-header { text-align: center; margin-bottom: 60px; }
-.section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1; color: var(--brown); }
-.section-sub { color: var(--brown-mid); margin-top: 12px; font-size: 1.1rem; font-family: var(--font-mincho); }
+.section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1; color: var(--page-text); }
+.section-sub { color: var(--page-text-sub); margin-top: 12px; font-size: 1.1rem; font-family: var(--font-mincho); }
 .highlight { color: var(--orange-deep); text-shadow: 0 0 6px rgba(255,69,0,0.6), 0 0 18px rgba(255,69,0,0.4), 3px 3px 0 rgba(255,69,0,0.25); }
 
 /* ── Footer ── */
-.footer { background: var(--brown-dark); border-top: 3px solid var(--brown); padding: 40px 5%; }
+.footer { background: var(--brown-dark); border-top: 3px solid rgba(255,255,255,0.15); padding: 40px 5%; }
 .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 .footer-logo { font-family: var(--font-display); font-size: 1.3rem; color: var(--orange); display: flex; align-items: center; gap: 8px; }
 .footer-text { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
