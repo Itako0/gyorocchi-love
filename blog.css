@@ -5,6 +5,11 @@
 /* ── 背景の光の丸（heroと同じデザイン・ページ全体に固定表示） ── */
 body::before { content: ''; position: fixed; inset: -60px; background: var(--glow-shapes); pointer-events: none; z-index: -1; animation: floatA 14s ease-in-out infinite; }
 
+/* ── 左端に揃え、下端をフッターの上端に揃えて大きく表示（ページと一緒にスクロール） ── */
+.footer { position: relative; }
+.footer::before { content: ''; position: absolute; left: 0; bottom: 100%; height: min(95vh, 820px); aspect-ratio: 435 / 574; pointer-events: none; z-index: -1; opacity: 0.7; 
+  background: url('assets/img/blogrei.png') no-repeat left bottom / contain; }
+
 /* ── Blog Hero ── */
 .blog-hero {
   padding: 140px 5% 60px;
