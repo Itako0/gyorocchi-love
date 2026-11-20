@@ -20,7 +20,7 @@
     </div>
     <ul class="nav-links">
       <li><a href="index.html#portfolio">PORTFOLIO</a></li>
-      <li><a href="index.html#about">ABOUT</a></li>
+      <li><a href="index.html#about">ABOUTME</a></li>
       <li><a href="index.html#news">NEWS</a></li>
       <li><a href="blog.html" class="nav-cta">blog</a></li>
     </ul>
@@ -59,9 +59,9 @@
     <aside class="sidebar">
 
       <div class="sidebar-block">
-        <div class="profile-pic">🦆</div>
+        <div class="profile-pic"><img src="assets/img/moneycat.jpeg" alt="梶原のアイコン" /></div>
         <div class="profile-name">梶原</div>
-        <p class="profile-bio">スプラトゥーンが好き。<br/>インコを飼ってます🦜BIG LOVE<br/>いろんなもの作るのが趣味です</p>
+        <p class="profile-bio">自由とお金を愛しています<br/>♡BIG LOVE♡<br/>いろんなもの作るのが趣味です</p>
       </div>
 
       <div class="sidebar-block">
@@ -102,7 +102,8 @@
   let state = {
     filter: { type: null, value: null }, // { type: 'category'|'archive', value: string }
     page: 1,
-    openId: null  // 開いている記事ID（URLハッシュ対応）
+    openId: null, // 開いている記事ID（URLハッシュ対応）
+    openYears: null // アーカイブで開いている年（null = 初期状態：最新の年だけ開く）
   };
 
   // ── カテゴリ定義 ──
@@ -199,16 +200,55 @@
     return `<div class="pagination">${btns}</div>`;
   }
 
+  // ── いいね：データベース設定（SQLite・server.py のAPI） ──
+  // server.py を動かしているURLをここに貼ると、いいねの数が SQLite（likes.db）に保存されて全員で共有されます。
+  // 例: 'https://あなたのサーバー.example.com'
+  // 空のままだと、このブラウザの localStorage に保存されます（動作確認用）。
+  const LIKES_API_URL = '';
+
+  const likeKey = id => 'likes_' + id;
+  const likeApi = id => `${LIKES_API_URL.replace(/\/$/, '')}/api/likes/${encodeURIComponent(id)}`;
+  const localLikes = id => parseInt(localStorage.getItem(likeKey(id))) || 0;
+
+  // いいね数を取得
+  async function fetchLikes(id) {
+    if (!LIKES_API_URL) return localLikes(id);
+    try {
+      const res = await fetch(likeApi(id));
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      return typeof data.count === 'number' ? data.count : 0;
+    } catch (e) {
+      console.warn('いいね数の取得に失敗しました', e);
+      return localLikes(id);
+    }
+  }
+
+  // いいねを1つ増やす（サーバー側のSQLiteで +1 して、新しい数を返す）
+  async function sendLike(id) {
+    if (!LIKES_API_URL) {
+      const n = localLikes(id) + 1;
+      localStorage.setItem(likeKey(id), n);
+      return n;
+    }
+    try {
+      const res = await fetch(likeApi(id), { method: 'POST' });
+      const data = await res.json();
+      return typeof data.count === 'number' ? data.count : null;
+    } catch (e) {
+      console.warn('いいねの保存に失敗しました', e);
+      return null;
+    }
+  }
+
   // ── いいねボタンHTML ──
-  function renderLikeButton(id) {
-    const count = parseInt(localStorage.getItem('likes_' + id)) || 0;
+  function renderLikeButton() {
     return `
       <div class="like-section">
-        <button class="like-btn" id="likeBtn">
-          <span class="like-heart">❤️</span>
-          <span class="like-label">いいね！</span>
+        <button class="like-btn" id="likeBtn" aria-label="いいね">
+          <img src="assets/img/heart.png" alt="" class="like-heart-img" />
         </button>
-        <span class="like-count" id="likeCount">${count}</span>
+        <span class="like-count" id="likeCount">0</span>
       </div>`;
   }
 
@@ -229,17 +269,22 @@
         <span class="post-tag ${tagClass}">${post.categoryLabel}</span>
       </div>
       <h1>${post.title}</h1>`;
-    document.getElementById('articleBody').innerHTML = post.body + renderLikeButton(id);
+    document.getElementById('articleBody').innerHTML = post.body + renderLikeButton();
 
-    // いいねボタンのイベント
-    document.getElementById('likeBtn').addEventListener('click', () => {
-      const key = 'likes_' + id;
-      const count = (parseInt(localStorage.getItem(key)) || 0) + 1;
-      localStorage.setItem(key, count);
-      document.getElementById('likeCount').textContent = count;
-      const btn = document.getElementById('likeBtn');
-      btn.classList.add('liked');
-      setTimeout(() => btn.classList.remove('liked'), 400);
+    // いいねボタン：押すと隣の数字が増え、データベースに保存される
+    const likeBtn = document.getElementById('likeBtn');
+    const likeEl  = document.getElementById('likeCount');
+    let likes = 0;
+    fetchLikes(id).then(n => { likes = Math.max(likes, n); likeEl.textContent = likes; });
+    likeBtn.addEventListener('click', () => {
+      likes += 1;
+      likeEl.textContent = likes;
+      likeBtn.classList.remove('liked');
+      void likeBtn.offsetWidth; // アニメーションを再生し直す
+      likeBtn.classList.add('liked');
+      sendLike(id).then(n => {
+        if (typeof n === 'number' && n > likes) { likes = n; likeEl.textContent = likes; }
+      });
     });
 
     history.replaceState(null, '', `#${id}`);
@@ -268,23 +313,59 @@
     });
   }
 
-  // ── サイドバー: アーカイブ ──
+  // ── サイドバー: アーカイブ（年ごとに折りたたみ） ──
   function renderArchive() {
     // 年月ごとに集計
-    const map = {};
+    const map = {};      // "2026-05" -> 件数
     POSTS.forEach(p => {
-      const ym = p.date.slice(0, 7); // "2026-05"
+      const ym = p.date.slice(0, 7);
       map[ym] = (map[ym] || 0) + 1;
     });
-    const sorted = Object.keys(map).sort((a, b) => b.localeCompare(a));
+    // 年ごとにまとめる
+    const yearMap = {};  // "2026" -> ["2026-12", "2026-11", ...]
+    Object.keys(map).sort((a, b) => b.localeCompare(a)).forEach(ym => {
+      const y = ym.slice(0, 4);
+      (yearMap[y] = yearMap[y] || []).push(ym);
+    });
+    const years = Object.keys(yearMap).sort((a, b) => b.localeCompare(a));
+
+    // 初期状態は最新の年だけ開く。絞り込み中の月がある年も開いておく
+    if (state.openYears === null) state.openYears = new Set(years.length ? [years[0]] : []);
+    if (state.filter.type === 'archive') state.openYears.add(state.filter.value.slice(0, 4));
+
     const el = document.getElementById('archiveList');
-    el.innerHTML = sorted.map(ym => {
-      const [y, m] = ym.split('-');
-      const label = `${y}年${parseInt(m)}月`;
-      const active = state.filter.type === 'archive' && state.filter.value === ym;
-      return `<button class="${active ? 'active' : ''}" data-ym="${ym}">${label} <span class="archive-count">${map[ym]}</span></button>`;
+    el.innerHTML = years.map(y => {
+      const months = yearMap[y];
+      const total = months.reduce((sum, ym) => sum + map[ym], 0);
+      const open = state.openYears.has(y);
+      const monthBtns = months.map(ym => {
+        const m = parseInt(ym.slice(5));
+        const active = state.filter.type === 'archive' && state.filter.value === ym;
+        return `<button class="archive-month-btn ${active ? 'active' : ''}" data-ym="${ym}">${m}月 <span class="archive-count">${map[ym]}</span></button>`;
+      }).join('');
+      return `
+        <div class="archive-year ${open ? 'open' : ''}">
+          <button class="archive-year-btn" data-year="${y}" aria-expanded="${open}">
+            <span>📁 ${y}年</span>
+            <span class="archive-year-right"><span class="archive-count">${total}</span><span class="archive-chev">▾</span></span>
+          </button>
+          <div class="archive-months">${monthBtns}</div>
+        </div>`;
     }).join('');
-    el.querySelectorAll('button').forEach(btn => {
+
+    // 年の開閉
+    el.querySelectorAll('.archive-year-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const y = btn.dataset.year;
+        const wrap = btn.closest('.archive-year');
+        const nowOpen = !wrap.classList.contains('open');
+        wrap.classList.toggle('open', nowOpen);
+        btn.setAttribute('aria-expanded', nowOpen);
+        if (nowOpen) state.openYears.add(y); else state.openYears.delete(y);
+      });
+    });
+    // 月で絞り込み
+    el.querySelectorAll('.archive-month-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const ym = btn.dataset.ym;
         state.filter = state.filter.value === ym ? { type: null, value: null } : { type: 'archive', value: ym };
