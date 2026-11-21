@@ -3,51 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7f5">
+  <meta name="theme-color" content="#ffffff">
   <title>418 I'm a teapot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;600&family=Kaisei+Decol:wght@700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #252525;
-      --muted: #777;
-      --line: #e7e5e1;
-      --accent: #e36b4f;
-      --paper: #f7f7f5;
-    }
+    :root { color-scheme: light; --ink: #1a1a1a; --muted: #55555c; --accent: #19dd3a; }
     * { box-sizing: border-box; }
     body {
-      min-height: 100vh; margin: 0; padding: 32px 20px;
+      min-height: 100vh; margin: 0; padding: 40px 20px;
       display: grid; place-items: center;
-      background: var(--paper); color: var(--ink);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #fff; color: var(--ink);
+      font-family: 'Zen Maru Gothic', sans-serif;
     }
-    main { width: min(620px, 100%); }
-    .code { color: var(--accent); font-size: 13px; letter-spacing: .08em; }
+    main { width: min(560px, 100%); text-align: center; }
+    .code { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; color: var(--muted); }
     h1 {
-      margin: 18px 0 8px; font-size: clamp(58px, 13vw, 104px);
-      line-height: .95; letter-spacing: -.09em; font-weight: 800;
+      margin: 16px 0 4px;
+      font-family: 'Kaisei Decol', serif; font-weight: 700;
+      font-size: clamp(4rem, 16vw, 7rem); line-height: 1.05;
     }
-    h2 { margin: 0; font-size: clamp(20px, 4vw, 28px); font-weight: 600; }
-    .illustration {
-      margin: 34px 0 26px; padding: 25px;
-      border: 1px solid var(--line); border-radius: 14px;
-      background: #fff; text-align: center;
-    }
-    .teapot { font-size: clamp(66px, 14vw, 100px); line-height: 1.2; }
-    .caption { margin-top: 10px; color: var(--muted); font-size: 12px; }
-    p { line-height: 1.9; font-family: system-ui, sans-serif; font-size: 15px; }
-    .quote {
-      margin: 22px 0; padding-left: 14px;
-      border-left: 2px solid var(--accent); color: #555;
-    }
+    h2 { margin: 0; font-family: 'Kaisei Decol', serif; font-size: clamp(1.3rem, 4vw, 1.8rem); }
+    img { display: block; width: 100%; height: auto; margin: 28px 0; border-radius: 16px; }
+    p { margin: 0 0 16px; font-family: 'Shippori Mincho', serif; color: var(--muted); font-size: 1.05rem; line-height: 1.9; }
+    .quote { color: var(--ink); }
     a {
-      display: inline-block; margin-top: 12px; padding: 11px 15px;
-      border: 1px solid var(--ink); border-radius: 6px;
-      color: var(--ink); text-decoration: none; font-size: 13px;
-      transition: .18s ease;
+      display: inline-block; margin-top: 8px; padding: 12px 28px;
+      border: 2px solid var(--ink); border-radius: 100px;
+      color: var(--ink); text-decoration: none; font-weight: 700;
+      transition: background 0.15s;
     }
-    a:hover { background: var(--ink); color: white; }
-    footer { margin-top: 42px; color: #999; font-size: 11px; }
+    a:hover { background: var(--accent); }
+    footer { margin-top: 40px; color: rgba(0,0,0,0.4); font-size: 0.75rem; letter-spacing: 0.08em; }
   </style>
 </head>
 <body>
@@ -56,25 +42,21 @@
     <h1>418.</h1>
     <h2>I'm a teapot.</h2>
 
-    <section class="illustration" aria-label="ティーポットのイラスト">
-      <div class="teapot" aria-hidden="true">🫖</div>
-      <div class="caption">短く言うと、そういうことです。</div>
-    </section>
+    <img src="assets/img/teapot.jpeg" alt="ティーポット">
 
     <p>
       このページはコーヒーを淹れるようには設計されていません。<br>
       そして、ソースコードを眺めても紅茶は出てきません。
     </p>
-
     <p class="quote">
-      「好奇心は大切です。<br>
-      ただし、ティーポットにも見られたくない部分はあります。」
+      「好奇心は大切です。ただし、私にも見られたくない部分はあります。」
     </p>
 
     <a href="index.html">← おとなしくトップページへ戻る</a>
 
     <footer>NO TEA WAS BREWED IN THE MAKING OF THIS ERROR.</footer>
   </main>
+
+  <script src="warning.js"></script>
 </body>
-<script src="warning.js"></script>
 </html>
