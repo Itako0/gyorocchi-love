@@ -142,6 +142,10 @@
 /* heroの「お問い合わせ」ボタン（.hero .btn-outline）と同じデザイン */
 .btn-more { background: transparent; color: var(--space-text); border-color: var(--space-text); box-shadow: 4px 4px 0 rgba(255,255,255,0.25); }
 .btn-more:hover { background: var(--space-text); color: var(--space-bg); }
+/* 白いカード上の READ MORE（「詳しく見る」の黒版・小さめ・横に伸ばさない） */
+.btn-dark { background: transparent; color: #1a1a1a; border-color: #1a1a1a; box-shadow: 4px 4px 0 rgba(0,0,0,0.25); font-size: 0.85rem; padding: 10px 22px; }
+.btn-dark:hover { background: #1a1a1a; color: #fff; }
+.game-info .btn { align-self: flex-start; }
 
 /* ── Games Section ── */
 .games-section { padding: 100px 5%; background: var(--bg); position: relative; overflow: hidden; }

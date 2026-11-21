@@ -8,8 +8,8 @@
 body::before { content: ''; position: fixed; inset: -60px; background: var(--glow-shapes); pointer-events: none; z-index: -1; animation: floatA 14s ease-in-out infinite; }
 
 /* ── 左端に揃え、下端をフッターの上端に揃えて大きく表示（ページと一緒にスクロール） ── */
-.footer { position: relative; }
-.footer::before { content: ''; position: absolute; left: 0; bottom: 100%; height: min(95vh, 820px); aspect-ratio: 435 / 574; pointer-events: none; z-index: -1; opacity: 0.7;
+.footer { position: relative; --rei-h: min(95vh, 820px); --rei-cut: 0.25; } /* --rei-cut: 左に見切れさせる割合（0.25 = 4分の1） */
+.footer::before { content: ''; position: absolute; left: calc(var(--rei-h) * 435 / 574 * var(--rei-cut) * -1); bottom: 100%; height: var(--rei-h); aspect-ratio: 435 / 574; pointer-events: none; z-index: -1; opacity: 0.7;
   background: url('assets/img/blogrei.png') no-repeat left bottom / contain;
   transform-origin: 20% 100%; animation: reiSway 6s ease-in-out infinite; }
 @keyframes reiSway {
@@ -34,6 +34,10 @@ body::before { content: ''; position: fixed; inset: -60px; background: var(--glo
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+/* ── 右上の niwatori.gif（ナビの下・ページと一緒にスクロール） ── */
+.blog-niwatori { position: absolute; top: 90px; right: 1%; width: clamp(500px, 14vw, 200px); height: auto; z-index: -1; pointer-events: none; user-select: none; }
+@media (max-width: 600px) { .blog-niwatori { top: 80px; right: 3%; width: 72px; } }
+
 .blog-hero-badge {
   display: inline-block;
   background: var(--teal-light);

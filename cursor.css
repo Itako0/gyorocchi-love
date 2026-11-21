@@ -1,7 +1,29 @@
 /* =============================================
    cursor.css — サイト全体共通カーソル設定
+   通常：cat_cursor.png
+   クリックできる場所：cat_cursor_green.png（緑色版）
    ============================================= */
 
 body {
   cursor: url('assets/img/cat_cursor.png') 4 4, auto;
+}
+
+/* クリックできる要素の上では緑のカーソルにする
+   :where() を使うと優先度が低いままなので、
+   disabled ボタンの not-allowed など他のカーソル指定はそのまま効く */
+:where(
+  a[href],
+  button:not(:disabled),
+  summary,
+  label[for],
+  select,
+  input[type="button"]:not(:disabled),
+  input[type="submit"]:not(:disabled),
+  input[type="checkbox"],
+  input[type="radio"],
+  input[type="file"],
+  [role="button"],
+  [onclick]
+) {
+  cursor: url('assets/img/cat_cursor_green.png') 4 4, pointer;
 }
