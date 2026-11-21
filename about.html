@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="梶原のプロフィールページです。経歴や好きなもの、できることを紹介しています。" />
+  <meta property="og:title" content="ABOUT ME | 梶原のウェブサイト">
+  <meta property="og:description" content="梶原のプロフィールページです。経歴や好きなもの、できることを紹介しています。">
+  <meta property="og:image" content="https://itako0.github.io/gyorocchi-love/assets/img/thumbnail.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="https://itako0.github.io/gyorocchi-love/assets/img/favicon.png" type="image/png">
+
+  <title>ABOUT ME | 梶原のウェブサイト</title>
+  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="cursor.css" />
+  <link rel="stylesheet" href="about.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700;800&family=Kaisei+Decol:wght@400;700&display=swap" rel="stylesheet" />
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a class="nav-logo" href="index.html">
+      <img src="assets/img/JAHlogo.png" alt="JAH" class="logo-icon logo-icon-img" />
+      <span class="logo-text">梶原のウェブサイト</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="portfolio.html">PORTFOLIO</a></li>
+      <li><a href="about.html" class="is-current">ABOUTME</a></li>
+      <li><a href="blog.html" class="nav-cta">blog</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="menu">☰</button>
+  </nav>
+
+  <main class="page">
+    <div class="about-wrap">
+
+      <header class="about-head">
+        <h1>ABOUT <span class="wiggle-text">ME</span></h1>
+        <p>サイト開発者のプロフィールになります。</br>
+        しょうもないない人間ですが、どうぞよろしくお願いします🙏</p>
+      </header>
+
+      <!-- ═══ 自己紹介 ═══ -->
+      <section class="card profile reveal">
+        <div class="photo-frame">
+          <div class="photo">
+            <span class="photo-emoji" aria-hidden="true">🦖</span>
+            <!-- ★ 自分の写真：assets/img/profile.png に置くと自動で表示されます（無ければ絵文字のまま） -->
+            <img src="assets/img/sioran.jpeg" alt="梶原の写真" onerror="this.remove()" />
+          </div>
+        </div>
+        <div>
+          <h2 class="profile-name">梶原<small>Kajihara</small></h2>
+          <p class="profile-copy">SEEK HAPPINESS, LIVE FREELY</p>
+          <p class="profile-text">
+            文学部に通いながら、ゲームやアプリ、Webサイトを開発しています。<br>
+            使用言語は HTML/CSS/JS/Python/C#/TSなどです。<br>
+            他にも、Live2DとBlernderが少々使えます。<br>
+            <br>
+            興味のある研究分野は宗教史で、特に他の宗教同士を比較研究するのに興味があります。（現在岐路に迷い中）<br>
+            <br>
+            何かあれば気軽にお問い合わせください。<br>
+          </p>
+          <div class="profile-tags">
+            <span class="tag tag-new">Developer</span>
+            <span class="tag">文学部</span>
+            <span class="tag">WEB班</span>
+          </div>
+          <div class="profile-btns">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScjM1PCplizDocFQvT2k_Tk1xQ-bJfkor9nS8gyiro2ziUb2w/viewform?usp=dialog" class="btn btn-dark-fill">お問い合わせ →</a>
+            <a href="portfolio.html" class="btn btn-dark">作品を見る →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ 基本情報 ═══ -->
+      <section class="block reveal">
+        <h2 class="block-title">基本情報<small>PROFILE</small></h2>
+        <div class="card facts">
+          <dl>
+            <dt>名前</dt><dd>梶原</dd>
+            <dt>所属</dt><dd>文学部歴史学科</dd>
+            <dt>好きなもの</dt><dd>金、自由、家族</dd>
+            <dt>趣味</dt><dd>自己研鑽、システム開発、読書、お昼寝、アニメ</dd>
+            <dt>LA目標</dt><dd>全てに努力し、ミスを減らす</dd>
+            <dt>人生目標</dt><dd>楽に生き、楽に死ぬ</dd>
+            <dt>興味のある思想</dt><dd>楽観的虚無主義、悲観主義、厭世主義</dd>
+            <dt>影響源</dt><dd>E・M・シオラン、アダム・スミス、親鸞、エピクロス</dd>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ═══ 経歴 ═══ -->
+      <section class="block reveal">
+        <h2 class="block-title">経歴<small>HISTORY</small></h2>
+        <div class="card timeline">
+
+          <div class="tl-item">
+            <span class="tl-year">2026/06</span>
+            <h3 class="tl-title">中間チーム開発で「因習村」を制作、2位受賞🥈</h3>
+            <p class="tl-desc">中間チーム開発で、ギャグ要素のあるホラーゲームを作りました</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2026/05</span>
+            <h3 class="tl-title">このウェブサイトを公開</h3>
+            <p class="tl-desc">ポートフォリオとブログをまとめたサイトを制作。現在も整備中です。</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2026/04</span>
+            <h3 class="tl-title">ゼミに所属し、近代仏教史を研究</h3>
+            <p class="tl-desc">近代の仏教とキリスト教の国家への対応比較をしています。</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2026/02</span>
+            <h3 class="tl-title">「AIVtuber」個人制作し、HDCで3位受賞🥉</h3>
+            <p class="tl-desc">AIVtuberの制作。そのVtuberを使いアプリ実演をし、HDCで3位に受賞しました。</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2025/11</span>
+            <h3 class="tl-title">「スタディーモンスター」をリリース</h3>
+            <p class="tl-desc">学習記録と育成ゲームが一体化したアプリをGoogle Playで公開。</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2025/05</span>
+            <h3 class="tl-title">チーム開発で「RYUKOKU」を制作</h3>
+            <p class="tl-desc">中間チーム開発で、エンド分岐する恋愛ギャグノベルを作りました。</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2025/02</span>
+            <h3 class="tl-title">「メモアプリ」をチーム開発し、HDCで3位受賞🥉</h3>
+            <p class="tl-desc">中間チーム開発でメモアプリを作り、HDCで3位に受賞しました。</p>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-year">2024/04</span>
+            <h3 class="tl-title">大学に入学</h3>
+            <p class="tl-desc">プログラミング部に入ってプログラミングを学び始めました。<br/>
+            歴史学科に所属、当時は中国の仏教美術に興味を持ってました。</p>
+          </div>
+        </div>
+      </section>
+ 
+
+      <!-- ═══ 終わりに ═══ -->
+      <section class="card about-cta reveal">
+        <h2>Thank you for reading!</h2>
+        <p>サイトの感想や質問、ご相談など、なんでもお気軽にどうぞ。</p>
+        <div class="profile-btns">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLScjM1PCplizDocFQvT2k_Tk1xQ-bJfkor9nS8gyiro2ziUb2w/viewform?usp=dialog" class="btn btn-dark-fill">お問い合わせ →</a>
+          <a href="blog.html" class="btn btn-dark">ブログを読む →</a>
+        </div>
+      </section>
+
+      <div class="page-foot"><a href="index.html" class="btn btn-more">← TOPへ戻る</a></div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo"><img src="assets/img/JAHlogo.png" alt="JAH" class="footer-logo-img" /> 梶原のウェブサイト</div>
+      <p class="footer-text">© 2026 kajihara website nanisiyoukana.</p>
+      <div class="footer-links">
+        <a href="index.html">ホーム</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScjM1PCplizDocFQvT2k_Tk1xQ-bJfkor9nS8gyiro2ziUb2w/viewform?usp=dialog">問い合わせ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="warning.js"></script>
+  <script>
+    // ハンバーガーメニュー
+    document.getElementById('hamburger').addEventListener('click', () => document.querySelector('.nav-links').classList.toggle('open'));
+    // スクロールで表示
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

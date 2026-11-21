@@ -1,0 +1,125 @@
+/* =============================================
+   about.css — about.html 専用スタイル
+   変数・リセット・ナビ・ボタン・フッターは common.css に依存
+   見た目は portfolio.html（.page / .article-card）に合わせています
+   ============================================= */
+
+:root { --fade-both: linear-gradient(to bottom, transparent 0, #000 100px, #000 calc(100% - 160px), transparent 90%); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--vsc-purple); outline-offset: 3px; }
+.nav-links a.is-current { opacity: 1; color: var(--teal); }
+
+/* ── ページ背景（portfolio と同じ光の丸） ── */
+.page { position: relative; isolation: isolate; overflow: hidden; min-height: 100vh; padding: 140px 5% 100px; background: var(--bg); }
+.page::before { content: ''; position: absolute; inset: -60px; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(circle 260px at 10% 38%, rgba(255,46,196,0.16) 0%, rgba(255,46,196,0.16) 45%, transparent 100%),
+    radial-gradient(circle 240px at 93% 58%, rgba(25,221,58,0.16) 0%, rgba(25,221,58,0.16) 45%, transparent 100%),
+    radial-gradient(circle 300px at 28% 90%, rgba(0,183,255,0.16) 0%, rgba(0,183,255,0.16) 45%, transparent 100%),
+    radial-gradient(circle 200px at 52% 14%, rgba(255,215,38,0.14) 0%, rgba(255,215,38,0.14) 45%, transparent 100%),
+    var(--glow-shapes);
+  animation: floatA 14s ease-in-out infinite; -webkit-mask-image: var(--fade-both); mask-image: var(--fade-both); }
+.about-wrap { position: relative; max-width: 1000px; margin: 0 auto; }
+
+/* ── ボタン（index / portfolio と同じ） ── */
+.btn-dark { background: transparent; color: #1a1a1a; border-color: #1a1a1a; box-shadow: 4px 4px 0 rgba(0,0,0,0.25); font-size: 0.85rem; padding: 10px 22px; }
+.btn-dark:hover { background: #1a1a1a; color: #fff; }
+.btn-dark-fill { background: #1a1a1a; color: #fff; border-color: #1a1a1a; box-shadow: 4px 4px 0 rgba(0,0,0,0.25); font-size: 0.85rem; padding: 10px 22px; }
+.btn-dark-fill:hover { background: transparent; color: #1a1a1a; }
+.btn-more { background: transparent; color: var(--space-text); border-color: var(--space-text); box-shadow: 4px 4px 0 rgba(255,255,255,0.25); }
+.btn-more:hover { background: var(--space-text); color: var(--space-bg); }
+
+/* ── 見出し ── */
+.about-head { margin-bottom: 40px; }
+.about-head h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; color: var(--page-text); }
+.wiggle-text { color: var(--teal-deep); display: inline-block; text-shadow: 0 0 10px rgba(0,230,118,0.55), 3px 3px 0 rgba(0,230,118,0.2); animation: aboutWiggle 3s ease-in-out infinite; }
+@keyframes aboutWiggle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+.about-head p { margin-top: 12px; font-family: var(--font-mincho); color: var(--page-text-sub); line-height: 1.9; }
+
+.block { margin-top: 72px; }
+.block-title { font-family: var(--font-display); font-size: clamp(1.7rem, 4vw, 2.4rem); line-height: 1.2; color: var(--page-text); margin-bottom: 8px; }
+.block-title small { font-family: var(--font-body); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; color: var(--page-text-sub); margin-left: 12px; }
+.block-lead { font-family: var(--font-mincho); color: var(--page-text-sub); line-height: 1.8; margin-bottom: 24px; }
+
+/* 白いカード（portfolio の .article-card と同じ） */
+.card { background: rgba(255,255,255,0.86); border: 2.5px solid rgba(0,0,0,0.15); border-radius: var(--radius-lg); }
+
+/* ── 自己紹介カード（写真 + 名前 + 紹介文） ── */
+.profile { display: grid; grid-template-columns: 300px 1fr; gap: clamp(24px, 5vw, 56px); align-items: center; padding: clamp(24px, 5vw, 48px); }
+.photo-frame { position: relative; width: 100%; max-width: 300px; aspect-ratio: 1; justify-self: center; }
+.photo { position: absolute; inset: 0; overflow: hidden; border: 4px solid var(--brown); border-radius: 58% 42% 55% 45% / 46% 54% 46% 54%;
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.25); background: linear-gradient(135deg, #f4d5b8, #e8a87c, #d4956a); display: flex; align-items: center; justify-content: center; }
+.photo-emoji { font-size: 110px; filter: drop-shadow(0 8px 14px rgba(0,0,0,0.2)); }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.photo-sticker { position: absolute; right: -6px; bottom: 6px; font-size: 2.2rem; background: var(--cream); border: 3px solid var(--teal); border-radius: 50%; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); animation: aboutFloat 4s ease-in-out infinite; }
+@keyframes aboutFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+.profile-tag { display: inline-block; background: var(--teal-light); color: var(--brown-dark); font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; padding: 6px 18px; border-radius: 100px; border: 2px solid var(--brown); margin-bottom: 16px; }
+.profile-name { font-family: var(--font-display); font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.1; color: var(--brown-dark-deep); text-shadow: 0 0 6px rgba(100,89,85,0.4), 3px 3px 0 rgba(255,69,0,0.2); }
+.profile-name small { display: block; margin-top: 6px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; color: var(--brown-mid); text-shadow: none; }
+.profile-copy { margin-top: 14px; font-family: var(--font-display); font-size: 1.2rem; color: var(--brown); }
+.profile-text { margin-top: 14px; font-family: var(--font-mincho); line-height: 1.95; color: var(--brown); }
+.profile-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+.profile-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 26px; }
+
+/* ── 基本情報（表） ── */
+.facts { padding: clamp(8px, 2vw, 16px) clamp(20px, 4vw, 40px); }
+.facts dl { display: grid; grid-template-columns: 9em 1fr; }
+.facts dt, .facts dd { padding: 16px 0; border-bottom: 2px dashed rgba(0,0,0,0.15); }
+.facts dt:nth-last-of-type(1), .facts dd:last-of-type { border-bottom: 0; }
+.facts dt { font-family: var(--font-body); font-weight: 700; color: var(--brown-mid); letter-spacing: 0.05em; }
+.facts dd { font-family: var(--font-mincho); color: var(--brown); line-height: 1.8; }
+
+/* ── 経歴（時系列なので縦のタイムライン） ── */
+.timeline { position: relative; padding: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px) clamp(24px, 4vw, 40px) clamp(40px, 6vw, 64px); }
+.timeline::before { content: ''; position: absolute; left: clamp(22px, 3vw, 34px); top: 40px; bottom: 40px; width: 4px; border-radius: 4px; background: linear-gradient(to bottom, var(--teal), var(--orange)); }
+.tl-item { position: relative; }
+.tl-item + .tl-item { margin-top: 32px; }
+.tl-item::before { content: ''; position: absolute; left: calc(-1 * clamp(18px, 3vw, 30px) - 8px); top: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--cream); border: 4px solid var(--brown); }
+.tl-year { display: inline-block; font-family: var(--font-body); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; padding: 3px 12px; border-radius: 100px; background: var(--teal); color: var(--brown-dark); }
+.tl-title { margin-top: 8px; font-family: var(--font-display); font-size: 1.3rem; color: var(--brown); }
+.tl-desc { margin-top: 4px; font-family: var(--font-mincho); line-height: 1.8; color: var(--brown-mid); font-size: 0.95rem; }
+
+/* ── 好きなもの ── */
+.likes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.like { padding: 26px 24px; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+.like:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.15); border-color: var(--orange); }
+.like-emoji { font-size: 2.8rem; line-height: 1; }
+.like h3 { margin-top: 12px; font-family: var(--font-display); font-size: 1.3rem; color: var(--brown); }
+.like p { margin-top: 8px; font-family: var(--font-mincho); font-size: 0.92rem; line-height: 1.8; color: var(--brown-mid); }
+
+/* ── スキル ── */
+.skills { padding: clamp(24px, 4vw, 40px); display: grid; gap: 22px; }
+.skill-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; font-weight: 700; color: var(--brown); }
+.skill-top span:last-child { font-family: var(--font-mincho); font-weight: 400; font-size: 0.85rem; color: var(--brown-mid); }
+.skill-bar { height: 14px; border-radius: 100px; background: rgba(0,0,0,0.08); border: 2px solid rgba(0,0,0,0.18); overflow: hidden; }
+.skill-bar i { display: block; height: 100%; width: var(--lv); border-radius: 100px; background: linear-gradient(90deg, var(--teal), var(--teal-deep)); }
+
+/* ── 最後のお誘い ── */
+.about-cta { margin-top: 72px; padding: clamp(28px, 5vw, 48px); text-align: center; }
+.about-cta h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--brown); }
+.about-cta p { margin: 12px 0 24px; font-family: var(--font-mincho); line-height: 1.9; color: var(--brown-mid); }
+.about-cta .profile-btns { justify-content: center; margin-top: 0; }
+.page-foot { margin-top: 48px; text-align: right; }
+
+/* ── 表示アニメーション（スクロールで一度だけ） ── */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.5s, transform 0.5s; }
+.js .reveal.revealed { opacity: 1; transform: none; }
+
+/* ── レスポンシブ ── */
+@media (max-width: 900px) { .likes { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 760px) {
+  .profile { grid-template-columns: 1fr; text-align: center; }
+  .profile-tags, .profile-btns { justify-content: center; }
+}
+@media (max-width: 600px) {
+  .page { padding-top: 120px; }
+  .likes { grid-template-columns: 1fr; }
+  .facts dl { grid-template-columns: 1fr; }
+  .facts dt { border-bottom: 0; padding-bottom: 0; }
+  .facts dd { padding-top: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page::before, .wiggle-text, .photo-sticker { animation: none; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .like:hover { transform: none; }
+}
