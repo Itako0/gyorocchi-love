@@ -7,6 +7,10 @@
 /* ── 背景の光の丸（heroと同じデザイン・ページ全体に固定表示） ── */
 body::before { content: ''; position: fixed; inset: -60px; background: var(--glow-shapes); pointer-events: none; z-index: -1; animation: floatA 14s ease-in-out infinite; }
 
+/* ── 背景画像（ページ全体の高さに敷き、スクロールしても下まで続く・40%半透明・光の丸や他の画像より後ろ） ── */
+body { position: relative; }
+body::after { content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: 100%; background: url('assets/img/kaos.jpeg') repeat-y center top / 100% auto; opacity: 0.4; pointer-events: none; z-index: -2; }
+
 /* ── 左端に揃え、下端をフッターの上端に揃えて大きく表示（ページと一緒にスクロール） ── */
 .footer { position: relative; --rei-h: min(95vh, 820px); --rei-cut: 0.25; } /* --rei-cut: 左に見切れさせる割合（0.25 = 4分の1） */
 .footer::before { content: ''; position: absolute; left: calc(var(--rei-h) * 435 / 574 * var(--rei-cut) * -1); bottom: 100%; height: var(--rei-h); aspect-ratio: 435 / 574; pointer-events: none; z-index: -1; opacity: 0.7;
