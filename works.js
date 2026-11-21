@@ -31,7 +31,9 @@ const WORKS = [
 
         ## ダウンロード
         GooglePlayストアのみで利用できます！ぜひダウンロードしてください。
-        Apple Storeではまだ公開されていません。`,
+        Apple Storeではまだ公開されていません。
+        
+        最近アプリパクられて爆萎え`,
     links: [
       { label: '公式サイトを見る', url: 'https://su-studio.com/' }
     ]
@@ -71,14 +73,11 @@ const WORKS = [
       Flet / SQLite
 
       ## プレイ動画
-      Githubに保存してますが、多分私のPCからしかプレイできないと思います。
+      Githubに保存してますが、多分プレイできないと思います。
       けど動画は残ってます。
       これはネタキャラの玄妙ルートです。
       全部で3人いて一番のギャグルートです。ちなみにBADEND
       ![RYUKOKUのプレイ動画](assets/img/ryukokumov.gif)
-      一応当時のスライドも見れます。`,
-    links: [
-      { label: 'スライドで動画を見る', url: 'https://canva.link/ptqels4zx4skd2u' }
-    ]
+      `,
   }
 ];
