@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>418 I'm a teapot</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #252525;
+      --muted: #777;
+      --line: #e7e5e1;
+      --accent: #e36b4f;
+      --paper: #f7f7f5;
+    }
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh; margin: 0; padding: 32px 20px;
+      display: grid; place-items: center;
+      background: var(--paper); color: var(--ink);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    main { width: min(620px, 100%); }
+    .code { color: var(--accent); font-size: 13px; letter-spacing: .08em; }
+    h1 {
+      margin: 18px 0 8px; font-size: clamp(58px, 13vw, 104px);
+      line-height: .95; letter-spacing: -.09em; font-weight: 800;
+    }
+    h2 { margin: 0; font-size: clamp(20px, 4vw, 28px); font-weight: 600; }
+    .illustration {
+      margin: 34px 0 26px; padding: 25px;
+      border: 1px solid var(--line); border-radius: 14px;
+      background: #fff; text-align: center;
+    }
+    .teapot { font-size: clamp(66px, 14vw, 100px); line-height: 1.2; }
+    .caption { margin-top: 10px; color: var(--muted); font-size: 12px; }
+    p { line-height: 1.9; font-family: system-ui, sans-serif; font-size: 15px; }
+    .quote {
+      margin: 22px 0; padding-left: 14px;
+      border-left: 2px solid var(--accent); color: #555;
+    }
+    a {
+      display: inline-block; margin-top: 12px; padding: 11px 15px;
+      border: 1px solid var(--ink); border-radius: 6px;
+      color: var(--ink); text-decoration: none; font-size: 13px;
+      transition: .18s ease;
+    }
+    a:hover { background: var(--ink); color: white; }
+    footer { margin-top: 42px; color: #999; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="code">ERROR 418 / I'M A TEAPOT</div>
+    <h1>418.</h1>
+    <h2>I'm a teapot.</h2>
+
+    <section class="illustration" aria-label="ティーポットのイラスト">
+      <div class="teapot" aria-hidden="true">🫖</div>
+      <div class="caption">短く言うと、そういうことです。</div>
+    </section>
+
+    <p>
+      このページはコーヒーを淹れるようには設計されていません。<br>
+      そして、ソースコードを眺めても紅茶は出てきません。
+    </p>
+
+    <p class="quote">
+      「好奇心は大切です。<br>
+      ただし、ティーポットにも見られたくない部分はあります。」
+    </p>
+
+    <a href="index.html">← おとなしくトップページへ戻る</a>
+
+    <footer>NO TEA WAS BREWED IN THE MAKING OF THIS ERROR.</footer>
+  </main>
+</body>
+</html>
