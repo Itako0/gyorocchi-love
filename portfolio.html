@@ -15,6 +15,76 @@
   <link rel="stylesheet" href="common.css" />
   <link rel="stylesheet" href="cursor.css" />
   <link rel="stylesheet" href="portfolio.css" />
+  <style>
+    .footer { position: relative; }
+    .footer-fran {
+      position: absolute; right: 16px; bottom: 0;
+      width: 160px; height: 160px;
+      opacity: 0.9; pointer-events: none;
+      image-rendering: pixelated;
+    }
+    /* ── 背景の魚（半透明・ゆらゆら） ── */
+    .fish-bg { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .fish {
+      position: absolute; width: clamp(200px, 15vw, 210px); height: auto;
+      opacity: 0.7;
+      animation: fish-sway 6s ease-in-out infinite;
+    }
+    /* 左列 */
+    .fish-catfish  { left: 2%;  top: 6%;  width: clamp(300px, 24vw, 340px); animation-duration: 7s; }
+    .fish-bwfish   { left: 3%;  top: 40%; animation-duration: 6s;   animation-delay: -2s; }
+    .fish-batafish { left: 2%;  top: 70%; animation-duration: 8s;   animation-delay: -4s; }
+    /* 右列（左より少し下） */
+    .fish-goldfish { right: 2%; top: 17%; animation-duration: 6.5s; animation-delay: -1s; }
+    .fish-nautilus { right: 3%; top: 52%; animation-duration: 7.5s; animation-delay: -3s; }
+    .fish-bluefish { right: 2%; top: 82%; animation-duration: 5.5s; animation-delay: -5s; }
+    @keyframes fish-sway {
+      0%, 100% { transform: translateX(-10px) rotate(-3deg); }
+      50%      { transform: translateX(10px)  rotate(3deg); }
+    }
+    @media (prefers-reduced-motion: reduce) { .fish { animation: none; } }
+    /* ── 海・水中エフェクト（一番奥のレイヤー：光の丸・魚・カードより後ろ） ── */
+    .sea-bg { position: absolute; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+    /* 水の色：上は明るく、下ほど深く */
+    .sea-water {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(130, 210, 235, 0.16) 0%,
+        rgba(50, 140, 190, 0.12) 50%,
+        rgba(10, 60, 120, 0.20) 100%);
+    }
+    /* 水面から差し込む光の筋（上部だけ） */
+    .sea-rays {
+      position: absolute; top: 0; left: -15%; width: 130%; height: 900px;
+      background: repeating-linear-gradient(105deg,
+        transparent 0 70px, rgba(190, 235, 255, 0.10) 100px, transparent 150px);
+      -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+              mask-image: linear-gradient(to bottom, #000, transparent);
+      animation: sea-rays 14s ease-in-out infinite alternate;
+    }
+    .sea-rays.r2 {
+      background: repeating-linear-gradient(98deg,
+        transparent 0 110px, rgba(190, 235, 255, 0.07) 140px, transparent 200px);
+      animation-duration: 19s; animation-direction: alternate-reverse;
+    }
+    @keyframes sea-rays {
+      from { transform: translateX(-40px); }
+      to   { transform: translateX(40px); }
+    }
+    /* 泡 */
+    .bubble {
+      position: absolute; bottom: -60px; left: var(--l);
+      width: var(--s); height: var(--s); border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), rgba(255,255,255,0.05) 60%);
+      opacity: 0.35;
+      animation: bubble-rise var(--t) linear infinite, bubble-wobble 4s ease-in-out infinite alternate;
+      animation-delay: var(--d), var(--d);
+    }
+    @keyframes bubble-rise   { from { bottom: -60px; } to { bottom: 105%; } }
+    @keyframes bubble-wobble { from { transform: translateX(-12px); } to { transform: translateX(12px); } }
+    @media (prefers-reduced-motion: reduce) { .sea-rays, .bubble { animation: none; } }
+  </style>
 </head>
 <body>
 
@@ -34,7 +104,44 @@
   </nav>
 
   <!-- 一覧・詳細・登録のどれかがここに入る -->
-  <main class="page" id="view"></main>
+  <main class="page">
+    <!-- 海・水中エフェクト -->
+    <div class="sea-bg" aria-hidden="true">
+      <div class="sea-water"></div>
+      <div class="sea-rays"></div>
+      <div class="sea-rays r2"></div>
+      <span class="bubble" style="--l:4%; --s:28px; --t:40s; --d:-3s"></span>
+      <span class="bubble" style="--l:9%; --s:16px; --t:32s; --d:-20s"></span>
+      <span class="bubble" style="--l:14%; --s:40px; --t:52s; --d:-30s"></span>
+      <span class="bubble" style="--l:19%; --s:22px; --t:36s; --d:-9s"></span>
+      <span class="bubble" style="--l:24%; --s:12px; --t:28s; --d:-15s"></span>
+      <span class="bubble" style="--l:30%; --s:34px; --t:48s; --d:-38s"></span>
+      <span class="bubble" style="--l:36%; --s:18px; --t:34s; --d:-5s"></span>
+      <span class="bubble" style="--l:42%; --s:48px; --t:58s; --d:-25s"></span>
+      <span class="bubble" style="--l:47%; --s:14px; --t:30s; --d:-12s"></span>
+      <span class="bubble" style="--l:53%; --s:26px; --t:42s; --d:-33s"></span>
+      <span class="bubble" style="--l:58%; --s:38px; --t:54s; --d:-8s"></span>
+      <span class="bubble" style="--l:63%; --s:20px; --t:36s; --d:-22s"></span>
+      <span class="bubble" style="--l:68%; --s:30px; --t:46s; --d:-40s"></span>
+      <span class="bubble" style="--l:73%; --s:12px; --t:28s; --d:-2s"></span>
+      <span class="bubble" style="--l:78%; --s:44px; --t:56s; --d:-18s"></span>
+      <span class="bubble" style="--l:83%; --s:24px; --t:40s; --d:-28s"></span>
+      <span class="bubble" style="--l:88%; --s:16px; --t:32s; --d:-11s"></span>
+      <span class="bubble" style="--l:93%; --s:36px; --t:50s; --d:-35s"></span>
+      <span class="bubble" style="--l:97%; --s:20px; --t:38s; --d:-16s"></span>
+      <span class="bubble" style="--l:33%; --s:10px; --t:26s; --d:-7s"></span>
+    </div>
+    <!-- 背景の魚（JSで書き換わらないよう #view の外に置く） -->
+    <div class="fish-bg" aria-hidden="true">
+      <img class="fish fish-catfish"  src="assets/img/catfish.png"  alt="" />
+      <img class="fish fish-goldfish" src="assets/img/goldfish.png" alt="" />
+      <img class="fish fish-bwfish"   src="assets/img/bwfish.png"   alt="" />
+      <img class="fish fish-nautilus" src="assets/img/Nautilus.png" alt="" />
+      <img class="fish fish-batafish" src="assets/img/betafish.png" alt="" />
+      <img class="fish fish-bluefish" src="assets/img/bluefish.png" alt="" />
+    </div>
+    <div id="view"></div>
+  </main>
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
@@ -45,6 +152,7 @@
         <a href="https://docs.google.com/forms/d/e/1FAIpQLScjM1PCplizDocFQvT2k_Tk1xQ-bJfkor9nS8gyiro2ziUb2w/viewform?usp=dialog">問い合わせ</a>
       </div>
     </div>
+    <img src="assets/img/fran.gif" alt="" class="footer-fran" aria-hidden="true" />
   </footer>
 
   <!-- DATA（作品データ） -->

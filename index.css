@@ -33,7 +33,7 @@
 }
 .hero, .hero * { color: var(--space-text); }
 .hero { isolation: isolate; }
-.hero::before { content: ''; position: absolute; inset: 0; background: url('assets/img/Lain.gif') center / cover no-repeat; opacity: 0.20; pointer-events: none; z-index: -1; -webkit-mask-image: var(--fade-bottom); mask-image: var(--fade-bottom); }
+.hero::before { content: ''; position: absolute; inset: 0; background: url('assets/img/Lain.gif') center / cover no-repeat; opacity: 0.30; pointer-events: none; z-index: -1; -webkit-mask-image: var(--fade-bottom); mask-image: var(--fade-bottom); }
 
 .hero-bg-shapes { position: absolute; inset: 0; pointer-events: none; -webkit-mask-image: var(--fade-bottom); mask-image: var(--fade-bottom); }
 .shape {
