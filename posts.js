@@ -5,9 +5,8 @@
 
 
 const POSTS = [
-
-                  {
-    id: "19",
+  {
+    id: 19,
     date: "2026-11-18",
     dateLabel: "2026年11月18日",
     category: "life",
@@ -27,13 +26,11 @@ const POSTS = [
       実際、ちょっと事業で使ってるし、私が仕事をする機械のようなものなので、そのメンテナンスは必要では？<br/>
       ちょっと、恐ろしいですが、頑張っていってきます。<br/>
       梶原愛菜前科持ち編にならないことを祈っててほしいです笑(^▽^)/<br/>
-
     `,
-    featured: false
   },
 
                 {
-    id: "18",
+    id: 18,
     date: "2026-11-16",
     dateLabel: "2026年11月16日",
     category: "life",
@@ -54,11 +51,10 @@ const POSTS = [
       なぞです。<br/>
 
     `,
-    featured: false
   },
   
                 {
-    id: "17",
+    id: 17,
     date: "2026-11-03",
     dateLabel: "2026年11月03日",
     category: "life",
@@ -79,11 +75,10 @@ const POSTS = [
 
 
     `,
-    featured: false
   },
 
                 {
-    id: "16",
+    id: 16,
     date: "2026-10-22",
     dateLabel: "2026年10月22日",
     category: "life",
@@ -104,11 +99,10 @@ const POSTS = [
 
 
     `,
-    featured: false
   },
 
                 {
-    id: "15",
+    id: 15,
     date: "2026-10-13",
     dateLabel: "2026年10月13日",
     category: "life",
@@ -129,12 +123,11 @@ const POSTS = [
       WEB班の研修とかでなかなか日記更新に手が回らなかったのですが、少し落ち着いたので更新継続していきます。
 
     `,
-    featured: false
   },
 
   
                 {
-    id: "14",
+    id: 14,
     date: "2026-09-16",
     dateLabel: "2026年9月16日",
     category: "life",
@@ -150,11 +143,10 @@ const POSTS = [
       ベタか金魚飼いたいですね～<br/>
 
     `,
-    featured: false
   },
 
               {
-    id: "13",
+    id: 13,
     date: "2026-08-07",
     dateLabel: "2026年8月7日",
     category: "up",
@@ -171,11 +163,10 @@ const POSTS = [
       もうちょいしたら実家に帰ります。<br/>
       実家の鳥たちに早く会いたい。</p>
     `,
-    featured: false
   },
 
         {
-    id: "12",
+    id: 12,
     date: "2026-08-05",
     dateLabel: "2026年8月5日",
     category: "life",
@@ -207,10 +198,9 @@ const POSTS = [
       夏はひたすら勉強と作業をがんばりますよ～！
 
     `,
-    featured: false
   },
                 {
-    id: "11",
+    id: 11,
     date: "2026-07-30",
     dateLabel: "2026年7月30日",
     category: "make",
@@ -248,11 +238,10 @@ const POSTS = [
       
 
     `,
-    featured: false
   },
 
               {
-    id: "10",
+    id: 10,
     date: "2026-07-23",
     dateLabel: "2026年7月23日",
     category: "up",
@@ -271,11 +260,10 @@ const POSTS = [
       ミニゲームだと、タイピングゲームとか作りたいです。<br/>
       UIももっとカオスにしたいですね、、、！</p>
     `,
-    featured: false
   },
 
             {
-    id: "9",
+    id: 9,
     date: "2026-07-16",
     dateLabel: "2026年7月16日",
     category: "up",
@@ -290,10 +278,9 @@ const POSTS = [
       来週は他ページにも猫マック追加したいです<br/>
       アダムの創造パロディをやりたいな</p>
     `,
-    featured: false
   },
           {
-    id: "8",
+    id: 8,
     date: "2026-07-14",
     dateLabel: "2026年7月14日",
     category: "up",
@@ -313,11 +300,10 @@ const POSTS = [
       <p class="rainbow">下のボタンからお絵描き掲示板に飛べます</p>
       <a href="oekaki.html" class="btn btn-primary">🦆＜僕をクリック！</a>
     `,
-    featured: false
   },
 
         {
-    id: "7",
+    id: 7,
     date: "2026-07-09",
     dateLabel: "2026年7月9日",
     category: "life",
@@ -331,11 +317,10 @@ const POSTS = [
       <p>今は、コズミックホラー的猫サイトが有力候補です</p>
       <p>あと、タイピングゲームをサイトに入れたいな～</p>
     `,
-    featured: false
   },
 
       {
-    id: "6",
+    id: 6,
     date: "2026-07-02",
     dateLabel: "2026年7月2日",
     category: "life",
@@ -346,11 +331,10 @@ const POSTS = [
       <p>今日の業務はとても穏やかで、学籍番号調査票をひたすら切っていました</p>
       <p>チョキチョキ、、、！</p>
     `,
-    featured: false
   },
 
         {
-    id: "5",
+    id: 5,
     date: "2026-06-30",
     dateLabel: "2026年6月30日",
     category: "life",
@@ -368,11 +352,10 @@ const POSTS = [
 
 
     `,
-    featured: false
   },
   
     {
-    id: "4",
+    id: 4,
     date: "2026-06-25",
     dateLabel: "2026年6月25日",
     category: "up",
@@ -393,11 +376,10 @@ const POSTS = [
 
 
     `,
-    featured: false
   },
   
     {
-    id: "3",
+    id: 3,
     date: "2026-06-23",
     dateLabel: "2026年6月23日",
     category: "life",
@@ -410,11 +392,10 @@ const POSTS = [
       <p>毎回、もっと早く勉強すべきだったと後悔しながらやってました。</p>
       <p>とりあえず当分は平和な毎日を過ごせそうです。未来の自分には、次回こそ計画的な行動を期待しています。</p>
     `,
-    featured: false
   },
 
   {
-    id: "2",
+    id: 2,
     date: "2026-05-14",
     dateLabel: "2026年5月14日",
     category: "game",
@@ -426,10 +407,9 @@ const POSTS = [
       <p>一時期、ソロプレイだけなのではと騒がれていて、少しショックを受けましたがマルチらしいです。</p>
       <p>サーモンランの上位互換みたいなゲームシステムなのかな。とにかく楽しみです。</p>
     `,
-    featured: false
   },
   {
-    id: "1",
+    id: 1,
     date: "2026-05-02",
     dateLabel: "2026年5月12日",
     category: "life",
@@ -445,10 +425,9 @@ const POSTS = [
         <li><strong>ニンテンドー</strong> — シンプルかつ洗練、見やすい</li>
       </ol>
     `,
-    featured: false
   },
 //   {
-//     id: "first-game-release",
+//     id: firstgame-release",
 //     date: "2026-04-05",
 //     dateLabel: "2026年4月5日",
 //     category: "make",
@@ -464,7 +443,6 @@ const POSTS = [
 //       <p>UIをシンプルにして、直感的に遊べるようにしました。説明書を読まなくても遊べるゲームが目標です。</p>
 //       <p>次は少しボリュームのあるものを作りたいな。応援してください🦖</p>
 //     `,
-//     featured: false
 //   }
 ];
 

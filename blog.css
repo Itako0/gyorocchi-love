@@ -274,3 +274,12 @@ body::before { content: ''; position: fixed; inset: -60px; background: var(--glo
     background-position: 200% center;
   }
 }
+
+.like-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.like-btn.liked {
+  color: #e74c3c;
+}
