@@ -10,7 +10,7 @@ body::before { content: ''; position: fixed; inset: -60px; background: var(--glo
 
 /* ── 左端に揃え、下端をフッターの上端に揃えて大きく表示（ページと一緒にスクロール） ── */
 .footer { position: relative; --rei-h: min(95vh, 820px); --rei-cut: 0.25; } /* --rei-cut: 左に見切れさせる割合（0.25 = 4分の1） */
-.footer::before { content: ''; position: absolute; left: calc(var(--rei-h) * 435 / 574 * var(--rei-cut) * -1); bottom: 100%; height: var(--rei-h); aspect-ratio: 435 / 574; pointer-events: none; z-index: -1; opacity: 0.7;
+.footer::before { content: ''; position: absolute; left: calc(var(--rei-h) * 435 / 574 * var(--rei-cut) * -1); bottom: 100%; height: var(--rei-h); aspect-ratio: 435 / 574; pointer-events: none; z-index: -1; opacity: 0.9;
   background: url('assets/img/blogrei.png') no-repeat left bottom / contain;
   transform-origin: 20% 100%; animation: reiSway 6s ease-in-out infinite; }
 @keyframes reiSway {
@@ -38,6 +38,25 @@ body::before { content: ''; position: fixed; inset: -60px; background: var(--glo
 /* ── 右上の niwatori.gif（ナビの下・ページと一緒にスクロール） ── */
 .blog-niwatori { position: absolute; top: 90px; right: 1%; width: clamp(500px, 14vw, 200px); height: auto; z-index: -1; pointer-events: none; user-select: none; }
 @media (max-width: 600px) { .blog-niwatori { top: 80px; right: 3%; width: 72px; } }
+
+/* ── 左上の killer.png（niwatori より下・ページと一緒にスクロール・ふわふわ動く） ── */
+.blog-killer {
+  position: absolute;
+  top: 320px;          /* niwatori(top:90px)より下。位置はここで調整 */
+  left: 1%;
+  width: clamp(350px, 14vw, 220px);
+  height: auto;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  transform-origin: 30% 80%;
+  animation: killerFloat 4s ease-in-out infinite;
+}
+@keyframes killerFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-12px) rotate(3deg); }
+}
+@media (max-width: 900px) { .blog-killer { display: none; } } /* スマホでは記事と被るので非表示 */
 
 .blog-hero-badge {
   display: inline-block;
@@ -282,4 +301,36 @@ body::before { content: ''; position: fixed; inset: -60px; background: var(--glo
 
 .like-btn.liked {
   color: #e74c3c;
+}
+
+/* ── 背景の DANGER テープ（静止・黒背景と光の丸の手前／killer・blogrei・記事ブロックの奥） ──
+   HTMLで killer.png より前に置いているので、同じ z-index:-1 でも killer より後ろに描画される */
+body { position: relative; }
+.warning-tapes {
+  position: absolute;        /* ページ全体に広がり、スクロールと一緒に動く（テープ自体は静止） */
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+  --tape-scale: 1.2;         /* テープの大きさ（元画像 650×400 の倍率） */
+}
+.warning-tape {
+  position: absolute;
+  left: -40vw;               /* 左右とも画面の外まで伸ばして、途中で途切れないようにする */
+  width: 180vw;
+  height: calc(60px * var(--tape-scale));
+  /* 元画像は縦に余白が多いので、中央のテープ部分だけを切り出して表示 */
+  background: url('assets/img/warningtape.png') repeat-x center / auto calc(400px * var(--tape-scale));
+  opacity: 0.3;
+}
+/* 位置・角度は自由に調整してください（top と rotate だけ変えればOK） */
+.tape-1 { top: 6%;  transform: rotate(-12deg); }
+.tape-2 { top: 22%; transform: rotate(8deg); }
+.tape-3 { top: 40%; transform: rotate(5deg); }
+.tape-4 { top: 56%; transform: rotate(-7deg); }
+.tape-5 { top: 74%; transform: rotate(-4deg); }
+.tape-6 { top: 90%; transform: rotate(11deg); }
+
+@media (max-width: 600px) {
+  .warning-tapes { --tape-scale: 0.7; }
 }
