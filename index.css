@@ -351,6 +351,7 @@
   left:220px;
   transform: translateX(-50%);
   width: min(30%, 320px);
+  opacity: 0.7;
   mask-image:
     linear-gradient(to top, transparent, black 15%),
     linear-gradient(to bottom, transparent, black 15%),
