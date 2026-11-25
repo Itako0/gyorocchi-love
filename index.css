@@ -218,7 +218,7 @@
 
 /* ── About Section ── */
 .about-section { padding: 100px 5%; position: relative; overflow: hidden; background: var(--bg); }
-.about-section::after { content: ''; position: absolute; inset: 0; background: url('assets/img/yanineko.gif') center / cover no-repeat; opacity: 0.35; pointer-events: none; z-index: 0; -webkit-mask-image: var(--fade-both); mask-image: var(--fade-both); }
+.about-section::after { content: ''; position: absolute; inset: 0; background: url('assets/img/yanineko.gif') center / cover no-repeat; opacity: 0.5; pointer-events: none; z-index: 0; -webkit-mask-image: var(--fade-both); mask-image: var(--fade-both); }
 .about-blob-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 50%, rgba(0,255,178,0.12) 0%, transparent 70%); pointer-events: none; -webkit-mask-image: var(--fade-both); mask-image: var(--fade-both); }
 .about-content { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 80px; }
 .about-text { flex: 1; opacity: 0; transform: translateX(-30px); }
@@ -248,7 +248,7 @@
 
 /* ── News Section ── */
 .news-section { padding: 100px 5%; background: var(--bg); position: relative; overflow: hidden; }
-.news-section::before { content: ''; position: absolute; inset: 0; background: url('assets/img/piza.gif') center / cover no-repeat; opacity: 0.35; pointer-events: none; z-index: 0; -webkit-mask-image: var(--fade-both); mask-image: var(--fade-both); }
+.news-section::before { content: ''; position: absolute; inset: 0; background: url('assets/img/piza.gif') center / cover no-repeat; opacity: 0.4; pointer-events: none; z-index: 0; -webkit-mask-image: var(--fade-both); mask-image: var(--fade-both); }
 .news-section .section-header, .news-section .news-grid { position: relative; z-index: 1; }
 .news-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 24px; max-width: 1100px; margin: 0 auto; }
 .news-card { background: var(--cream); border: 2px solid rgba(0,0,0,0.12); border-radius: var(--radius-lg); padding: 32px; display: flex; flex-direction: column; gap: 12px; transition: transform 0.25s, border-color 0.25s; opacity: 0; transform: translateY(20px); }

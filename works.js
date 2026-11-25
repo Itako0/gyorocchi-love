@@ -101,5 +101,57 @@ const WORKS = [
       ![因習村のプレイ動画](assets/img/insyumov.gif)
       プレイしたい方は教えてください。
       `,
-  }
+  },
+
+    {
+    id: 'AIvtuber',
+    title: 'AIvtuber',
+    type: 'App',
+    tags: ['system'],
+    image: 'assets/img/AIvtuber_hed.jpg',
+    summary: '2026年のHDCで個人開発したyoutubeで配信をすると答えてくれるAI搭載Vtuberです。3位🥉を受賞しました',
+    body: `## どんな作品
+      配信でコメントするとそれに太宰治風の返しをしてくれるAIvtuberです。（声付き）
+      主にGeminiAPIとYoutubeAPIを用い接続部をpythonで補って、誰かのコメントをGeminiにプロンプトとして送るという仕組みになってます。
+      太宰治風のしゃべり方をするように指示しているので、名前は太宰ちゃんです。
+      ちなみに3DモデルはVRoidstudioで自作しました。
+
+      ## 使用技術とソフト
+      Python / GeminiAPI / YoutubeAPI / VOICEVOXAPI / sounddevice / soundfile /
+      OBSstudio / VOICEVOX / VRoidstudio /VMagicMirror
+
+      ## 詳しく
+      当時のスライドがあるので、そちらに詳しく書かれています。
+      ちなみにyoutubeチャンネルも上げときます。（検証で使うために作ったもの）
+      `,
+        links: [
+      { label: 'スライドを見る', url: 'https://canva.link/u549uzfnnebk5j0' },
+      { label: 'Youtubeチャンネル', url: 'https://canva.link/u549uzfnnebk5j0' },
+    ]
+  },
+
+    {
+    id: 'lain',
+    title: 'Lainを好きになりましょう',
+    type: 'App',
+    tags: ['game'],
+    image: 'assets/img/lain_like.png',
+    summary: '2024年にはじめて作った簡単なゲーム作品です。',
+    body: `## どんな作品
+      lainというキャラがいて、私はその子が大好きなので、その子のゲームを作ってみた感じです。
+      大した機能はなく、選択肢を間違えると少しホラー要素のあるBADENDになるだけの簡単なものです。
+      初作品で、コードどこに残ってるかわからないです。
+      見つかったら、WEBでできるように改造してここに張りたいですね。
+      当時のスライドだけは見つかりました。
+
+      ## 使用技術
+      Python / flet
+
+      ## スライド
+      当時のスライドです。
+      `,
+        links: [
+      { label: 'スライドを見る', url: 'https://canva.link/c3vo813vmx8ii1u' },
+    ]
+  },
 ];
