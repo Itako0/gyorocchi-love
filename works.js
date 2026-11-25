@@ -22,12 +22,15 @@ const WORKS = [
         タイマーや手動入力で手軽に学習時間を記録できるほか、目標設定やグラフによる学習分析など、勉強を継続するための機能も充実。さらに、フレンド機能を使えば、友達と学習記録を共有して、お互いに刺激を受けながら頑張れます。
 
         ## 主な機能
-
         ・学習記録：タイマーと手動入力で毎日の勉強時間を簡単に記録。
         ・モンスター育成：勉強時間に応じてモンスターが成長・進化！
         ・目標設定：毎日の学習目標を設定して、達成を目指そう。
         ・学習レポート：日別・月別のグラフで学習時間や傾向を振り返り。
         ・フレンド機能：友達と勉強時間を共有して、励まし合いながら学習。
+
+        ## 主な機能
+        ReactNative / expo /jotai / SQLite / AsyncStorage
+        Firebase(firestore, authentication, function, hosting)
 
         ## ダウンロード
         GooglePlayストアのみで利用できます！ぜひダウンロードしてください。
@@ -78,7 +81,13 @@ const WORKS = [
       これはネタキャラの玄妙ルートです。
       全部で3人いて一番のギャグルートです。ちなみにBADEND
       ![RYUKOKUのプレイ動画](assets/img/ryukokumov.gif)
+
+      ## スライド
+      当時のスライドです。
       `,
+        links: [
+      { label: 'スライドを見る', url: 'https://canva.link/w1r62r8t4gtwksf' },
+    ]
   },
     {
     id: 'insyu-mura',
@@ -102,7 +111,13 @@ const WORKS = [
       ので、動画でご視聴ください。
       ![因習村のプレイ動画](assets/img/insyumov.gif)
       プレイしたい方は教えてください。
+
+      ## スライド
+      当時のスライドです。
       `,
+        links: [
+      { label: 'スライドを見る', url: 'https://canva.link/ax3yrosud3l39vs' },
+    ]
   },
 
     {
@@ -128,7 +143,7 @@ const WORKS = [
       `,
         links: [
       { label: 'スライドを見る', url: 'https://canva.link/u549uzfnnebk5j0' },
-      { label: 'Youtubeチャンネル', url: 'https://canva.link/u549uzfnnebk5j0' },
+      { label: 'Youtubeチャンネル', url: 'https://www.youtube.com/watch?v=VPbWeKH_dXE&t=7904s' },
     ]
   },
 
