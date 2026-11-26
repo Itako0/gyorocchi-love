@@ -129,7 +129,7 @@ const WORKS = [
     summary: '2026年のHDCで個人開発したyoutubeで配信をすると答えてくれるAI搭載Vtuberです。3位🥉を受賞しました',
     body: `## どんな作品
       配信でコメントするとそれに太宰治風の返しをしてくれるAIvtuberです。（声付き）
-      主にGeminiAPIとYoutubeAPIを用い接続部をpythonで補って、誰かのコメントをGeminiにプロンプトとして送るという仕組みになってます。
+      主にGeminiAPIとYoutubeAPIを用い接続部をpythonで補って、誰かのコメントをGeminiにプロンプトとして送るという仕組みになってます。詳しくに書いてます。
       太宰治風のしゃべり方をするように指示しているので、名前は太宰ちゃんです。
       ちなみに3DモデルはVRoidstudioで自作しました。
 
